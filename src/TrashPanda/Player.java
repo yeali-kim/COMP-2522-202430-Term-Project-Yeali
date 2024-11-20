@@ -91,6 +91,6 @@ class Player {
     }
 
     public void draw(GraphicsContext gc) {
-        gc.drawImage(currentImage, x * cellSize, y * cellSize, cellSize * 0.5, cellSize * 0.5);
+        gc.drawImage(currentImage, x * cellSize, y * cellSize, cellSize * 0.6, cellSize * 0.6);
     }
 }
