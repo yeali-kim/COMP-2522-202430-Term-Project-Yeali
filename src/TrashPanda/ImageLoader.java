@@ -1,5 +1,7 @@
 package TrashPanda;
+
 import javafx.scene.image.Image;
+
 import java.util.*;
 
 class ImageLoader {
@@ -7,6 +9,8 @@ class ImageLoader {
     public static final Image[] leftImages = new Image[4];
     public static final Image[] rightImages = new Image[4];
     public static final Image[] backImages = new Image[4];
+    public static Image wall;
+    public static Image floor;
 
     public static void loadImages() {
         for (int i = 0; i < 4; i++) {
@@ -15,5 +19,7 @@ class ImageLoader {
             rightImages[i] = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/right" + i + ".png")));
             backImages[i] = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/back" + i + ".png")));
         }
+        wall = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/wall.png")));
+        floor = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/floor.png")));
     }
 }
