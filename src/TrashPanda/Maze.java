@@ -60,8 +60,12 @@ class Maze {
     public void draw(GraphicsContext gc, int cellSize) {
         for (int y = 0; y < maze.length; y++) {
             for (int x = 0; x < maze[y].length; x++) {
-                gc.setFill(maze[y][x] ? Color.FLORALWHITE : Color.DARKOLIVEGREEN);
-                gc.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                if (maze[y][x]) {
+                    gc.drawImage(ImageLoader.floor, x * cellSize, y * cellSize, cellSize, cellSize);
+                } else {
+                    gc.drawImage(ImageLoader.wall2, x * cellSize, y * cellSize, cellSize, cellSize);
+                }
+
             }
         }
     }
