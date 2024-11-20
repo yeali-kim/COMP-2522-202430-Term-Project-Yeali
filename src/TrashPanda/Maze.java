@@ -23,8 +23,8 @@ class Maze {
         int gridX = (int) Math.floor(x);
         int gridY = (int) Math.floor(y);
 
-        int nextX = (int) Math.floor(x + 1 - 0.1);
-        int nextY = (int) Math.floor(y + 1 - 0.1);
+        int nextX = (int) Math.floor(x + 1 - 0.5);
+        int nextY = (int) Math.floor(y + 1 - 0.5);
 
         return gridX >= 0 && gridX < maze.length &&
                 gridY >= 0 && gridY < maze.length &&
