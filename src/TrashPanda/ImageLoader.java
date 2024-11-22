@@ -19,7 +19,7 @@ class ImageLoader {
             rightImages[i] = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/right" + i + ".png")));
             backImages[i] = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/back" + i + ".png")));
         }
-        wall = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/wall.png")));
-        floor = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/floor.png")));
-    }
+        wall = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/wall1.png")));
+        floor = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/floor1.png")));
+  }
 }
