@@ -7,12 +7,16 @@ class Player {
     private double x;
     private double y;
     private final int cellSize;
-    private String lastDirection = "S";
     private Image currentImage;
+    private boolean isAlive;
+    private boolean hasShield;
+    private int lightRadius;
+    private final Map<String, Integer> imageIndices = new HashMap<>();
 
+    private String lastDirection = "S";
     private long lastUpdateTime = 0;
     private static final long IMAGE_UPDATE_DELAY = 100;
-    private final Map<String, Integer> imageIndices = new HashMap<>();
+
 
     public Player(double startX, double startY, int cellSize) {
         this.x = startX;
