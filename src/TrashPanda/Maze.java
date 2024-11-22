@@ -63,7 +63,7 @@ class Maze {
                 if (maze[y][x]) {
                     gc.drawImage(ImageLoader.floor, x * cellSize, y * cellSize, cellSize, cellSize);
                 } else {
-                    gc.drawImage(ImageLoader.wall2, x * cellSize, y * cellSize, cellSize, cellSize);
+                    gc.drawImage(ImageLoader.wall, x * cellSize, y * cellSize, cellSize, cellSize);
                 }
 
             }
