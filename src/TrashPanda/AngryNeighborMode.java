@@ -9,9 +9,9 @@ class AngryNeighborMode implements Mode {
     // Constructor for NormalMode
     public AngryNeighborMode(String difficulty) {
         if (difficulty.equals("Easy")) {
-            this.mazeSize = Mode.easy(this).getMazeSize();
+            this.mazeSize = 5;
         } else if (difficulty.equals("Hard")) {
-            this.mazeSize = Mode.hard(this).getMazeSize();
+            this.mazeSize = 10;
         } else {
             throw new IllegalArgumentException("Invalid difficulty: " + difficulty);
         }

@@ -12,6 +12,10 @@ class Game {
         this.maze = levelManager.getCurrentMaze();
     }
 
+    public Maze getMaze() {
+        return this.maze;
+    }
+
     public void update(Set<String> activeKeys) {
         double dx = 0, dy = 0;
         boolean moving = false;

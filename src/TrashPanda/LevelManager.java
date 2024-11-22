@@ -6,16 +6,17 @@ import javafx.scene.control.Alert;
 public class LevelManager {
     private Mode currentMode;
     private int currentLevelIndex = 0;
+    private Maze currentMaze;
 
     private final Mode[] levelProgression = {
-            Mode.easy(new NormalMode("Easy")),     // Easy Normal
-            Mode.hard(new NormalMode("Hard")),     // Hard Normal
-            Mode.easy(new NightMode("Easy")),      // Easy Night
-            Mode.hard(new NightMode("Hard")),      // Hard Night
-            Mode.easy(new AngryNeighborMode("Easy")), // Easy Angry Neighbor
-            Mode.hard(new AngryNeighborMode("Hard")), // Hard Angry Neighbor
-            Mode.easy(new CompositeMode("Easy")),  // Easy Composite
-            Mode.hard(new CompositeMode("Hard")),  // Hard Composite
+            new NormalMode("Easy"),     // Easy Normal
+            new NormalMode("Hard"),     // Hard Normal
+            new NightMode("Easy"),      // Easy Night
+            new NightMode("Hard"),      // Hard Night
+            new AngryNeighborMode("Easy"), // Easy Angry Neighbor
+            new AngryNeighborMode("Hard"), // Hard Angry Neighbor
+            new CompositeMode("Easy"),  // Easy Composite
+            new CompositeMode("Hard"),  // Hard Composite
             null                                 // Game Won
     };
 
@@ -24,7 +25,10 @@ public class LevelManager {
     }
 
     Maze getCurrentMaze() {
-        return currentMode != null ? currentMode.createMaze() : null;
+        if (currentMaze == null) {
+            currentMaze = currentMode.createMaze();
+        }
+        return currentMaze;
     }
 
     public Mode getCurrentMode() {
@@ -71,6 +75,8 @@ public class LevelManager {
 
         // Set the current mode to the next level
         currentMode = levelProgression[currentLevelIndex];
+        currentMaze = currentMode.createMaze();
+
         return true;
     }
 

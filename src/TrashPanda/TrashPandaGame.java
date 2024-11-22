@@ -70,7 +70,6 @@ public class TrashPandaGame extends Application {
     private void updateStageTitle() {
         Mode currentMode = levelManager.getCurrentMode();
         String difficulty = currentMode.getName();
-
         primaryStage.setTitle("Trash Panda - " + difficulty);
     }
 
@@ -96,6 +95,7 @@ public class TrashPandaGame extends Application {
     }
 
     private void drawGame() {
+        //여기 maze는 Game maze 여야함
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 

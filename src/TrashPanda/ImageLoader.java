@@ -21,5 +21,5 @@ class ImageLoader {
         }
         wall = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/wall1.png")));
         floor = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/floor1.png")));
-  }
+    }
 }
