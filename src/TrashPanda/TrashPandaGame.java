@@ -15,27 +15,28 @@ import java.util.Set;
 
 public class TrashPandaGame extends Application {
     private static final int CELL_SIZE = 40;
+    private final int canvasSize = 1000;
     private Maze maze;
     private Player player;
     private Canvas canvas;
     private final Set<String> activeKeys = new HashSet<>();
     private Game game;
+    private LevelManager levelManager;
+    private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         ImageLoader.loadImages();
-        maze = new Maze(10);
-        player = new Player(1, 1, CELL_SIZE);
-        game = new Game(player, maze);
-
-        canvas = new Canvas(maze.getMazeSize() * CELL_SIZE * 1.2, maze.getMazeSize() * CELL_SIZE * 1.2);
+        levelManager = new LevelManager();
+        initializeLevel();
+        canvas = new Canvas(canvasSize, canvasSize);
         StackPane root = new StackPane(canvas);
         Scene scene = new Scene(root);
-
         scene.setOnKeyPressed(e -> activeKeys.add(e.getCode().toString()));
         scene.setOnKeyReleased(e -> activeKeys.remove(e.getCode().toString()));
 
-        primaryStage.setTitle("Trash Panda - Normal Mode (Easy)");
+        updateStageTitle();
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -46,11 +47,31 @@ public class TrashPandaGame extends Application {
                 drawGame();
 
                 if (playerReachedGoal()) {
-                    showCongratulationsPopup();
-                    stop();
+                    // If there are more levels, reinitialize
+                    if (levelManager.advanceLevel()) {
+                        initializeLevel();
+                    } else {
+                        // Game is won
+                        showGameWonPopup();
+                        stop();
+                    }
                 }
             }
         }.start();
+    }
+
+    private void initializeLevel() {
+        maze = levelManager.getCurrentMaze();
+        player = new Player(1, 1, CELL_SIZE);
+        game = new Game(player, levelManager);
+        updateStageTitle();
+    }
+
+    private void updateStageTitle() {
+        Mode currentMode = levelManager.getCurrentMode();
+        String difficulty = currentMode.getName();
+
+        primaryStage.setTitle("Trash Panda - " + difficulty);
     }
 
     private boolean playerReachedGoal() {
@@ -63,12 +84,12 @@ public class TrashPandaGame extends Application {
         return playerX == goalX && playerY == goalY;
     }
 
-    private void showCongratulationsPopup() {
+    private void showGameWonPopup() {
         javafx.application.Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Finished!");
+            alert.setTitle("Congratulations!");
             alert.setHeaderText(null);
-            alert.setContentText("You arrived at home :)");
+            alert.setContentText("You completed all levels! You arrived home!");
             alert.initOwner(canvas.getScene().getWindow());
             alert.show();
         });
@@ -77,11 +98,17 @@ public class TrashPandaGame extends Application {
     private void drawGame() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        // Apply current mode effects
+        levelManager.applyCurrentModeEffects(gc);
+
         int mazePixelSize = maze.getMazeSize() * CELL_SIZE;
         double offsetX = (canvas.getWidth() - mazePixelSize) / 2;
         double offsetY = (canvas.getHeight() - mazePixelSize) / 2;
-        gc.setFill(Color.DARKGRAY);
+
+        gc.setFill(Color.MISTYROSE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
         gc.save();
         gc.translate(offsetX, offsetY);
         maze.draw(gc, CELL_SIZE);

@@ -4,10 +4,12 @@ import java.util.*;
 class Game {
     private final Player player;
     private final Maze maze;
+    private final LevelManager levelManager;
 
-    public Game(Player player, Maze maze) {
+    public Game(Player player, LevelManager levelManager) {
         this.player = player;
-        this.maze = maze;
+        this.levelManager = levelManager;
+        this.maze = levelManager.getCurrentMaze();
     }
 
     public void update(Set<String> activeKeys) {
@@ -38,5 +40,18 @@ class Game {
 
         player.move(dx, dy, maze);
         player.updateImage(direction, moving);
+
+        // Check for level completion (you'll need to define this logic)
+        if (isLevelCompleted()) {
+            levelManager.advanceLevel();
+        }
+    }
+
+    // Method to determine if the current level is completed
+    private boolean isLevelCompleted() {
+        // This is a placeholder - you'll need to implement
+        // the specific logic for determining level completion
+        // For example, reaching a specific point in the maze
+        return false;
     }
 }
