@@ -1,4 +1,5 @@
 package TrashPanda;
+
 import java.util.*;
 
 class Game {
@@ -44,18 +45,15 @@ class Game {
 
         player.move(dx, dy, maze);
         player.updateImage(direction, moving);
-
-        // Check for level completion (you'll need to define this logic)
-        if (isLevelCompleted()) {
-            levelManager.advanceLevel();
-        }
     }
 
-    // Method to determine if the current level is completed
-    private boolean isLevelCompleted() {
-        // This is a placeholder - you'll need to implement
-        // the specific logic for determining level completion
-        // For example, reaching a specific point in the maze
-        return false;
+    public boolean isLevelCompleted() {
+        int goalX = maze.getMazeSize() - 2;
+        int goalY = maze.getMazeSize() - 2;
+
+        int playerX = (int) Math.round(player.getX());
+        int playerY = (int) Math.round(player.getY());
+
+        return playerX == goalX && playerY == goalY;
     }
 }

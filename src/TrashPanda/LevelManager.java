@@ -43,17 +43,11 @@ public class LevelManager {
 
     public boolean advanceLevel() {
         String message;
-        if (currentLevelIndex < levelProgression.length - 1) {
-            Mode nextMode = levelProgression[currentLevelIndex + 1];
-            String currentModeName = currentMode != null ? currentMode.getName() : "Game won";
-            String nextModeName = nextMode != null ? nextMode.getName() : "Congratulations! You arrived home!";
-
-            // Format the message
-            message = currentModeName + " cleared! Now prepare for " + nextModeName + "!";
-        } else {
-            // Final congratulatory message
-            message = "Congratulations! You completed all levels! You arrived home!";
-        }
+        Mode nextMode = levelProgression[currentLevelIndex + 1];
+        String currentModeName = currentMode.getName();
+        String nextModeName = nextMode.getName();
+        // Format the message
+        message = currentModeName + " cleared!" + (nextMode != null ? "Now prepare for " + nextModeName + "!" : "You arrived home safely!");
 
         // Show the popup
         javafx.application.Platform.runLater(() -> {

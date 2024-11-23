@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -40,25 +41,22 @@ public class TrashPandaGame extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        new AnimationTimer() {
+        AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 game.update(activeKeys);
                 drawGame();
 
-                if (playerReachedGoal()) {
-                    // If there are more levels, reinitialize
-                    if (levelManager.advanceLevel()) {
-                        initializeLevel();
-                    } else {
-                        // Game is won
-                        showGameWonPopup();
-                        stop();
-                    }
+                if (game.isLevelCompleted()) {
+                    levelManager.advanceLevel();
+                    activeKeys.clear();
+                    initializeLevel();
                 }
             }
-        }.start();
+        };
+        timer.start();
     }
+
 
     private void initializeLevel() {
         maze = levelManager.getCurrentMaze();
@@ -83,21 +81,13 @@ public class TrashPandaGame extends Application {
         return playerX == goalX && playerY == goalY;
     }
 
-    private void showGameWonPopup() {
-        javafx.application.Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Congratulations!");
-            alert.setHeaderText(null);
-            alert.setContentText("You completed all levels! You arrived home!");
-            alert.initOwner(canvas.getScene().getWindow());
-            alert.show();
-        });
-    }
 
     private void drawGame() {
-        //여기 maze는 Game maze 여야함
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Apply current mode effects
         levelManager.applyCurrentModeEffects(gc);
@@ -106,15 +96,13 @@ public class TrashPandaGame extends Application {
         double offsetX = (canvas.getWidth() - mazePixelSize) / 2;
         double offsetY = (canvas.getHeight() - mazePixelSize) / 2;
 
-        gc.setFill(Color.MISTYROSE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
         gc.save();
         gc.translate(offsetX, offsetY);
         maze.draw(gc, CELL_SIZE);
         player.draw(gc);
         gc.restore();
     }
+
 
     public static void main(String[] args) {
         launch(args);
