@@ -71,16 +71,6 @@ public class TrashPandaGame extends Application {
         primaryStage.setTitle("Trash Panda - " + difficulty);
     }
 
-    private boolean playerReachedGoal() {
-        int goalX = maze.getMazeSize() - 2;
-        int goalY = maze.getMazeSize() - 2;
-
-        int playerX = (int) Math.round(player.getX());
-        int playerY = (int) Math.round(player.getY());
-
-        return playerX == goalX && playerY == goalY;
-    }
-
 
     private void drawGame() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
