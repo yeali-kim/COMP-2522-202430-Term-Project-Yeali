@@ -2,11 +2,10 @@ package TrashPanda;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -16,7 +15,6 @@ import java.util.Set;
 
 public class TrashPandaGame extends Application {
     private static final int CELL_SIZE = 40;
-    private final int canvasSize = 1000;
     private Maze maze;
     private Player player;
     private Canvas canvas;
@@ -31,6 +29,7 @@ public class TrashPandaGame extends Application {
         ImageLoader.loadImages();
         levelManager = new LevelManager();
         initializeLevel();
+        int canvasSize = 1000;
         canvas = new Canvas(canvasSize, canvasSize);
         StackPane root = new StackPane(canvas);
         Scene scene = new Scene(root);
@@ -45,6 +44,7 @@ public class TrashPandaGame extends Application {
             @Override
             public void handle(long now) {
                 game.update(activeKeys);
+
                 drawGame();
 
                 if (game.isLevelCompleted()) {
@@ -79,8 +79,6 @@ public class TrashPandaGame extends Application {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        // Apply current mode effects
-        levelManager.applyCurrentModeEffects(gc);
 
         int mazePixelSize = maze.getMazeSize() * CELL_SIZE;
         double offsetX = (canvas.getWidth() - mazePixelSize) / 2;
@@ -91,8 +89,8 @@ public class TrashPandaGame extends Application {
         maze.draw(gc, CELL_SIZE);
         player.draw(gc);
         gc.restore();
+        levelManager.applyModeDrawingEffects(gc, player, canvas);
     }
-
 
     public static void main(String[] args) {
         launch(args);

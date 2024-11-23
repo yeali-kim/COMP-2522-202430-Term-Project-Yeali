@@ -13,10 +13,6 @@ class Game {
         this.maze = levelManager.getCurrentMaze();
     }
 
-    public Maze getMaze() {
-        return this.maze;
-    }
-
     public void update(Set<String> activeKeys) {
         double dx = 0, dy = 0;
         boolean moving = false;
@@ -42,7 +38,11 @@ class Game {
             direction = "D";
             moving = true;
         }
-
+        // Apply the mode-specific effects to the player
+        Mode currentMode = levelManager.getCurrentMode();
+        if (currentMode != null) {
+            currentMode.applyEffect(player);
+        }
         player.move(dx, dy, maze);
         player.updateImage(direction, moving);
     }

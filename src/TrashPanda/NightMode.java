@@ -1,12 +1,9 @@
 package TrashPanda;
 
-import javafx.scene.canvas.GraphicsContext;
-
 class NightMode implements Mode {
     private final int mazeSize;
     private final String difficulty;
 
-    // Constructor for NormalMode
     public NightMode(String difficulty) {
         if (difficulty.equals("Easy")) {
             this.mazeSize = 5;
@@ -18,10 +15,6 @@ class NightMode implements Mode {
         this.difficulty = difficulty;
     }
 
-    @Override
-    public int getMazeSize() {
-        return mazeSize;
-    }
 
     @Override
     public Maze createMaze() {
@@ -29,9 +22,11 @@ class NightMode implements Mode {
     }
 
     @Override
-    public void applyEffects(GraphicsContext gc) {
-        // No special effects for normal mode
+    public void applyEffect(Player player) {
+        //Reduce the light radius
+        player.setLightRadius(200);
     }
+
 
     @Override
     public String getName() {

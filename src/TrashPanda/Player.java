@@ -41,6 +41,17 @@ class Player {
         return lastDirection;
     }
 
+    public int getCellSize() {
+        return cellSize;
+    }
+    public int getLightRadius() {
+        return lightRadius;
+    }
+
+    public void setLightRadius(int lightRadius) {
+        this.lightRadius = lightRadius;
+    }
+
     public void move(double dx, double dy, Maze maze) {
         double newX = x + dx;
         double newY = y + dy;

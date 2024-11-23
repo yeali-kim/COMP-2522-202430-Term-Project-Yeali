@@ -1,7 +1,5 @@
 package TrashPanda;
 
-import javafx.scene.canvas.GraphicsContext;
-
 class AngryNeighborMode implements Mode {
     private final int mazeSize;
     private final String difficulty;
@@ -19,18 +17,12 @@ class AngryNeighborMode implements Mode {
     }
 
     @Override
-    public int getMazeSize() {
-        return mazeSize;
-    }
-
-    @Override
     public Maze createMaze() {
         return new Maze(mazeSize);
     }
 
     @Override
-    public void applyEffects(GraphicsContext gc) {
-        // No special effects for normal mode
+    public void applyEffect(Player player) {
     }
 
     @Override

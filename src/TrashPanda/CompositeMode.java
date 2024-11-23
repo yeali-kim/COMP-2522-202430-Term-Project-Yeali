@@ -19,18 +19,15 @@ class CompositeMode implements Mode {
     }
 
     @Override
-    public int getMazeSize() {
-        return mazeSize;
-    }
-
-    @Override
     public Maze createMaze() {
         return new Maze(mazeSize);
     }
 
     @Override
-    public void applyEffects(GraphicsContext gc) {
-        // No special effects for normal mode
+    public void applyEffect(Player player) {
+        //Reduce the light radius
+        player.setLightRadius(200);
+
     }
 
     @Override
