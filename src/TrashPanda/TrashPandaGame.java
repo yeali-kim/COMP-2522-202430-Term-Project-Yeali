@@ -43,6 +43,10 @@ public class TrashPandaGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                if (levelManager.isGameOver) {
+                    stop();
+                    return;
+                }
                 game.update(activeKeys);
 
                 drawGame();
@@ -57,7 +61,6 @@ public class TrashPandaGame extends Application {
         timer.start();
     }
 
-
     private void initializeLevel() {
         maze = levelManager.getCurrentMaze();
         player = new Player(1, 1, CELL_SIZE);
@@ -70,7 +73,6 @@ public class TrashPandaGame extends Application {
         String difficulty = currentMode.getName();
         primaryStage.setTitle("Trash Panda - " + difficulty);
     }
-
 
     private void drawGame() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
