@@ -8,15 +8,12 @@ class Player {
     private double y;
     private final int cellSize;
     private Image currentImage;
-    private boolean isAlive;
     private boolean hasShield;
-    private int lightRadius;
     private final Map<String, Integer> imageIndices = new HashMap<>();
 
     private String lastDirection = "S";
     private long lastUpdateTime = 0;
     private static final long IMAGE_UPDATE_DELAY = 100;
-
 
     public Player(double startX, double startY, int cellSize) {
         this.x = startX;
@@ -43,13 +40,6 @@ class Player {
 
     public int getCellSize() {
         return cellSize;
-    }
-    public int getLightRadius() {
-        return lightRadius;
-    }
-
-    public void setLightRadius(int lightRadius) {
-        this.lightRadius = lightRadius;
     }
 
     public void move(double dx, double dy, Maze maze) {
