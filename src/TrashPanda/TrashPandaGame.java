@@ -43,7 +43,7 @@ public class TrashPandaGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (levelManager.isGameOver) {
+                if (LevelManager.isGameOver) {
                     stop();
                     return;
                 }
