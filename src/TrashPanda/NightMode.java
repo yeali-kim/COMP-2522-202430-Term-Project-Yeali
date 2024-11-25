@@ -33,11 +33,8 @@ class NightMode implements Mode {
     }
 
     @Override
-    public void applyEffect(Player player) {
-        player.setLightRadius(200);
-    }
-
-    public void drawEffects(GraphicsContext gc, Player player, Canvas canvas, Maze currentMaze) {
+    public void applyEffects(GraphicsContext gc, Player player, Canvas canvas, Maze currentMaze) {
+        final double radius = 200;
         double playerX = player.getX() * player.getCellSize();
         double playerY = player.getY() * player.getCellSize();
 
@@ -46,8 +43,6 @@ class NightMode implements Mode {
 
         double centerX = playerX + offsetX + (player.getCellSize() * 0.3);
         double centerY = playerY + offsetY + (player.getCellSize() * 0.3);
-
-        double radius = player.getLightRadius();
 
         gc.save();
 

@@ -1,10 +1,12 @@
 package TrashPanda;
 
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+
 class NormalMode implements Mode {
     private final int mazeSize;
     private final String difficulty;
 
-    // Constructor for NormalMode
     public NormalMode(String difficulty) {
         if (difficulty.equals("Easy")) {
             this.mazeSize = 5;
@@ -16,6 +18,10 @@ class NormalMode implements Mode {
         this.difficulty = difficulty;
     }
 
+    @Override
+    public String getName() {
+        return difficulty + " Normal Mode";
+    }
 
     @Override
     public Maze createMaze() {
@@ -23,11 +29,7 @@ class NormalMode implements Mode {
     }
 
     @Override
-    public void applyEffect(Player player) {
-    }
-
-    @Override
-    public String getName() {
-        return difficulty + " Normal Mode";
+    public void applyEffects(GraphicsContext gc, Player player, Canvas canvas, Maze maze) {
+        //No effect for normal mode
     }
 }
