@@ -5,11 +5,9 @@ import java.util.*;
 class Game {
     private final Player player;
     private final Maze maze;
-    private final LevelManager levelManager;
 
     public Game(Player player, LevelManager levelManager) {
         this.player = player;
-        this.levelManager = levelManager;
         this.maze = levelManager.getCurrentMaze();
     }
 
@@ -37,11 +35,6 @@ class Game {
             dx += 0.1;
             direction = "D";
             moving = true;
-        }
-        // Apply the mode-specific effects to the player
-        Mode currentMode = levelManager.getCurrentMode();
-        if (currentMode != null) {
-            currentMode.applyEffect(player);
         }
         player.move(dx, dy, maze);
         player.updateImage(direction, moving);
