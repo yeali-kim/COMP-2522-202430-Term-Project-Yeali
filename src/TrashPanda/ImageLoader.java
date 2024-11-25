@@ -11,6 +11,7 @@ class ImageLoader {
     public static final Image[] backImages = new Image[4];
     public static Image wall;
     public static Image floor;
+    public static Image neighbor;
 
     public static void loadImages() {
         for (int i = 0; i < 4; i++) {
@@ -21,5 +22,6 @@ class ImageLoader {
         }
         wall = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/wall1.png")));
         floor = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/floor1.png")));
+        neighbor = new Image(Objects.requireNonNull(ImageLoader.class.getResourceAsStream("/images/neighbor.png")));
   }
 }
