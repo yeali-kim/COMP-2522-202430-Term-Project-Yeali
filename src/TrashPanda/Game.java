@@ -1,38 +1,55 @@
 package TrashPanda;
 
-import java.util.*;
+import java.util.Set;
 
+/**
+ * Represents the game logic, including player movement and level completion.
+ * Handles player updates, movement, and checks if a level has been completed.
+ */
 class Game {
     private final Player player;
     private final Maze maze;
 
-    public Game(Player player, LevelManager levelManager) {
+    /**
+     * Constructs a new Game instance with the specified player and level.
+     *
+     * @param player Player instance of the game
+     * @param levelManager LevelManager that provides the current maze and mode
+     */
+    Game(final Player player, final LevelManager levelManager) {
         this.player = player;
         this.maze = levelManager.getCurrentMaze();
     }
 
-    public void update(Set<String> activeKeys) {
-        double dx = 0, dy = 0;
+    /**
+     * Updates the game state based on the active keys pressed by the user.
+     *
+     * @param activeKeys a set of Strings representing the keys currently being pressed
+     */
+    public void update(final Set<String> activeKeys) {
+        double dx = 0;
+        double dy = 0;
+        final double movement = 0.1;
         boolean moving = false;
         String direction = player.getLastDirection();
 
         if (activeKeys.contains("W")) {
-            dy -= 0.1;
+            dy -= movement;
             direction = "W";
             moving = true;
         }
         if (activeKeys.contains("S")) {
-            dy += 0.1;
+            dy += movement;
             direction = "S";
             moving = true;
         }
         if (activeKeys.contains("A")) {
-            dx -= 0.1;
+            dx -= movement;
             direction = "A";
             moving = true;
         }
         if (activeKeys.contains("D")) {
-            dx += 0.1;
+            dx += movement;
             direction = "D";
             moving = true;
         }
@@ -40,6 +57,12 @@ class Game {
         player.updateImage(direction, moving);
     }
 
+    /**
+     * Checks if the current level has been completed by determining
+     * whether the player reached the goal position of the maze, which is the right bottom corner.
+     *
+     * @return true is player reached the end position, and false otherwise
+     */
     public boolean isLevelCompleted() {
         int goalX = maze.getMazeSize() - 2;
         int goalY = maze.getMazeSize() - 2;
