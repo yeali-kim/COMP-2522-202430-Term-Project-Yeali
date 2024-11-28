@@ -2,65 +2,94 @@ package TrashPanda;
 
 import javafx.scene.canvas.GraphicsContext;
 
-
+/**
+ * Represents a projectile that is shot from neighbor.
+ * A projectile moves at a random velocity in random angle and may intersect with player.
+ */
 class Projectile {
     private double x;
     private double y;
     private final double vx;
     private final double vy;
-    private static final double SIZE = 10;
-    private static final int CANVAS_SIZE = 1000; // Match your canvas size
+    private final double projectileSize = 10;
 
-    public Projectile(double x, double y, double vx, double vy) {
+    /**
+     * Constructs a new projectile with specified position and velocity.
+     *
+     * @param x  double representing the x-coordinate of the projectile
+     * @param y  double representing the y-coordinate of the projectile
+     * @param vx double representing the x-component of the projectile's velocity
+     * @param vy double representing the y-component of the projectile's velocity
+     */
+    Projectile(final double x, final double y, final double vx, final double vy) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
     }
 
+    /**
+     * Updates the position of the projectile based on its velocity.
+     */
     public void update() {
         x += vx;
         y += vy;
     }
 
-    public void draw(GraphicsContext gc) {
+    /**
+     * Draws the projectile on the specified graphics context.
+     *
+     * @param gc GraphicsContext on which to draw the projectile
+     */
+    public void draw(final GraphicsContext gc) {
         gc.setFill(javafx.scene.paint.Color.RED);
-        gc.fillOval(x - SIZE / 2, y - SIZE / 2, SIZE, SIZE);
+        gc.fillOval(x - projectileSize / 2, y - projectileSize / 2, projectileSize, projectileSize);
     }
 
+    /**
+     * Checks if the projectile is out of bounds of the game canvas.
+     *
+     * @return true if the projectile is out of bounds and false otherwise
+     */
     public boolean isOutOfBounds() {
-        return x + SIZE / 2 < 0 || x - SIZE / 2 > CANVAS_SIZE ||
-                y + SIZE / 2 < 0 || y - SIZE / 2 > CANVAS_SIZE;
+        return x + projectileSize / 2 < 0
+                || x - projectileSize / 2 > TrashPandaGame.CANVAS_SIZE
+                || y + projectileSize / 2 < 0
+                || y - projectileSize / 2 > TrashPandaGame.CANVAS_SIZE;
     }
 
-    public boolean intersects(Player player, Maze maze) {
+    /**
+     * Checks if the projectiles intersects with the player.
+     *
+     * @param player Player to check for intersection
+     * @param maze   Maze to calculate player positioning
+     * @return true if projectile intersects with player, and false otherwise
+     */
+    public boolean intersects(final Player player, final Maze maze) {
+        final double scaleFactor = 0.6;
         double mazeSize = maze.getMazeSize();
-        int cellSize = player.getCellSize();
 
-        System.out.println(mazeSize);
-        System.out.println(cellSize);
+        double playerX = (TrashPandaGame.CANVAS_SIZE - mazeSize * TrashPandaGame.CELL_SIZE) / 2
+                + player.getX() * TrashPandaGame.CELL_SIZE;
+        double playerY = (TrashPandaGame.CANVAS_SIZE - mazeSize * TrashPandaGame.CELL_SIZE) / 2
+                + player.getY() * TrashPandaGame.CELL_SIZE;
 
-        double playerX = (1000 - mazeSize * cellSize) / 2 + player.getX() * cellSize  ;
-        double playerY = (1000 - mazeSize * cellSize) / 2 + player.getY() * cellSize ;
-
-        double playerWidth = cellSize * 0.6;
-        double playerHeight = cellSize * 0.6;
+        double playerWidth = TrashPandaGame.CELL_SIZE * scaleFactor;
+        double playerHeight = TrashPandaGame.CELL_SIZE * scaleFactor;
 
         //Projectile bounds
-        double projectileLeft = x - SIZE / 2;
-        double projectileRight = x + SIZE / 2;
-        double projectileTop = y - SIZE / 2;
-        double projectileBottom = y + SIZE / 2;
+        double projectileLeft = x - projectileSize / 2;
+        double projectileRight = x + projectileSize / 2;
+        double projectileTop = y - projectileSize / 2;
+        double projectileBottom = y + projectileSize / 2;
 
         // Player bounds
         double playerRight = playerX + playerWidth;
         double playerBottom = playerY + playerHeight;
 
-        System.out.printf("Projectile: [%f, %f, %f, %f] Player: [%f, %f, %f, %f]%n",
-                projectileLeft, projectileRight, projectileTop, projectileBottom,
-                playerX, playerRight, playerY, playerBottom);
-
-        return !(projectileRight < playerX || projectileLeft > playerRight ||
-                projectileBottom < playerY || projectileTop > playerBottom);
+        return !(projectileRight < playerX
+                || projectileLeft > playerRight
+                || projectileBottom < playerY
+                || projectileTop > playerBottom);
     }
 }
