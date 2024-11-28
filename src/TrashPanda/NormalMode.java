@@ -39,10 +39,10 @@ class NormalMode extends Mode {
     /**
      * Applies visual effects for normal mode. For normal mode, no additional effects are applied.
      *
-     * @param gc GraphicsContext used for rendering on the canvas
+     * @param gc     GraphicsContext used for rendering on the canvas
      * @param player Player representing current player
      * @param canvas Canvas on which to draw
-     * @param maze Maze that is current maze
+     * @param maze   Maze that is current maze
      */
     @Override
     public void applyEffects(final GraphicsContext gc, final Player player,
