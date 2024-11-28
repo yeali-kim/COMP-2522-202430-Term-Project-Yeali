@@ -7,7 +7,6 @@ class AngryNeighborMode implements Mode {
     private final int mazeSize;
     private final String difficulty;
     private Neighbor neighbor;
-    private boolean gameOver = false;
 
     public AngryNeighborMode(String difficulty) {
         if (difficulty.equals("Easy")) {
