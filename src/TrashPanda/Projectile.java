@@ -33,29 +33,34 @@ class Projectile {
                 y + SIZE / 2 < 0 || y - SIZE / 2 > CANVAS_SIZE;
     }
 
-    public boolean intersects(double playerX, double playerY, double playerWidth, double playerHeight) {
-        // Projectile bounds
+    public boolean intersects(Player player, Maze maze) {
+        double mazeSize = maze.getMazeSize();
+        int cellSize = player.getCellSize();
+
+        System.out.println(mazeSize);
+        System.out.println(cellSize);
+
+        double playerX = (1000 - mazeSize * cellSize) / 2 + player.getX() * cellSize  ;
+        double playerY = (1000 - mazeSize * cellSize) / 2 + player.getY() * cellSize ;
+
+        double playerWidth = cellSize * 0.6;
+        double playerHeight = cellSize * 0.6;
+
+        //Projectile bounds
         double projectileLeft = x - SIZE / 2;
         double projectileRight = x + SIZE / 2;
         double projectileTop = y - SIZE / 2;
         double projectileBottom = y + SIZE / 2;
 
         // Player bounds
-        double playerLeft = playerX;
         double playerRight = playerX + playerWidth;
-        double playerTop = playerY;
         double playerBottom = playerY + playerHeight;
 
         System.out.printf("Projectile: [%f, %f, %f, %f] Player: [%f, %f, %f, %f]%n",
                 projectileLeft, projectileRight, projectileTop, projectileBottom,
-                playerLeft, playerRight, playerTop, playerBottom);
+                playerX, playerRight, playerY, playerBottom);
 
-        // Check for overlap
-        return projectileRight >= playerLeft && // Projectile's right edge past player's left edge
-                projectileLeft <= playerRight && // Projectile's left edge before player's right edge
-                projectileBottom >= playerTop && // Projectile's bottom edge past player's top edge
-                projectileTop <= playerBottom;   // Projectile's top edge before player's bottom edge
-
-
+        return !(projectileRight < playerX || projectileLeft > playerRight ||
+                projectileBottom < playerY || projectileTop > playerBottom);
     }
 }

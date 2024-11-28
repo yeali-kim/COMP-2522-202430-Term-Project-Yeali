@@ -23,7 +23,7 @@ public class LevelManager {
     };
 
     public LevelManager() {
-        currentMode = levelProgression[4];
+        currentMode = levelProgression[0];
     }
 
     Maze getCurrentMaze() {
@@ -81,13 +81,6 @@ public class LevelManager {
     }
 
     public void applyModeDrawingEffects(GraphicsContext gc, Player player, Canvas canvas) {
-        if (currentMode != null) {
-            currentMode.applyEffects(gc, player, canvas, currentMaze);
-            if (currentMode instanceof AngryNeighborMode) {
-                if (((AngryNeighborMode) currentMode).isGameOver()) {
-                    endGame();
-                }
-            }
-        }
+        currentMode.applyEffects(gc, player, canvas, currentMaze);
     }
 }

@@ -40,15 +40,11 @@ class AngryNeighborMode implements Mode {
         return new Maze(mazeSize);
     }
 
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
     @Override
     public void applyEffects(GraphicsContext gc, Player player, Canvas canvas, Maze maze) {
         if (neighbor != null) {
-            neighbor.update(player);
-            if (neighbor.checkCollision(player)) {
+            neighbor.update();
+            if (neighbor.checkCollision(player, maze)) {
                 LevelManager.endGame();
             }
             neighbor.draw(gc, player.getCellSize());

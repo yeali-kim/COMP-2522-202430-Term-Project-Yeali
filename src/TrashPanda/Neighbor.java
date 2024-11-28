@@ -23,7 +23,7 @@ class Neighbor {
         this.lastShotTime = System.currentTimeMillis();
     }
 
-    public void update(Player player) {
+    public void update() {
         long SHOT_DELAY = random.nextLong(1, 10) * 100;
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= SHOT_DELAY) {
@@ -61,14 +61,9 @@ class Neighbor {
         }
     }
 
-    public boolean checkCollision(Player player) {
-        double playerX = player.getX() * player.getCellSize();
-        double playerY = player.getY() * player.getCellSize();
-        double playerWidth = player.getCellSize() * 0.6;
-        double playerHeight = player.getCellSize() * 0.6;
-
+    public boolean checkCollision(Player player, Maze currentMaze) {
         for (Projectile projectile : projectiles) {
-            if (projectile.intersects(playerX, playerY, playerWidth, playerHeight)) {
+            if (projectile.intersects(player, currentMaze)) {
                 return true;
             }
         }
