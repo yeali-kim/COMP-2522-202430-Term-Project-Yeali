@@ -41,20 +41,31 @@ public class TrashPandaGame extends Application {
         primaryStage.show();
 
         AnimationTimer timer = new AnimationTimer() {
+            private static boolean run = true;
+
             @Override
-            public void handle(long now) {
+            public void handle(final long now) {
                 if (LevelManager.isGameOver) {
                     stop();
                     return;
                 }
-                game.update(activeKeys);
 
-                drawGame();
+                if (run) {
+                    game.update(activeKeys);
+                    drawGame();
+                }
 
                 if (game.isLevelCompleted()) {
-                    levelManager.advanceLevel();
+                    run = false;
+                    levelManager.completeLevel();
                     activeKeys.clear();
                     initializeLevel();
+                }
+
+                if (LevelManager.proceedToNext) {
+                    levelManager.advanceLevel();
+                    initializeLevel();
+                    run = true;
                 }
             }
         };

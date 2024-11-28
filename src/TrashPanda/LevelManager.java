@@ -1,5 +1,6 @@
 package TrashPanda;
 
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -9,6 +10,7 @@ public class LevelManager {
     private int currentLevelIndex = 0;
     private Maze currentMaze;
     static boolean isGameOver = false;
+    static boolean proceedToNext = false;
 
     private final Mode[] levelProgression = {
             new NormalMode("Easy"),     // Easy Normal
@@ -23,7 +25,7 @@ public class LevelManager {
     };
 
     public LevelManager() {
-        currentMode = levelProgression[0];
+        currentMode = levelProgression[currentLevelIndex];
     }
 
     Maze getCurrentMaze() {
@@ -37,29 +39,41 @@ public class LevelManager {
         return currentMode;
     }
 
-    public void advanceLevel() {
-        String message;
-        Mode nextMode = levelProgression[currentLevelIndex + 1];
-        String currentModeName = currentMode.getName();
-        String nextModeName = nextMode.getName();
-        message = currentModeName + " cleared!" + (nextMode != null ? "Now prepare for " + nextModeName + "!" : "You arrived home safely!");
+    public void completeLevel() {
+        if (levelProgression[currentLevelIndex + 1] == null) {
+            // Display "Game Won" alert and stop the game
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Game Won!");
+                alert.setHeaderText(null);
+                alert.setContentText("Congratulations! You have arrived home safely!");
+                alert.showAndWait(); // This blocks until the user clicks "OK"
+                Platform.exit();
+            });
 
-        //pop up
-        javafx.application.Platform.runLater(() -> {
+            return;
+        }
+
+        // Display a "Level Cleared" message and wait for user input
+        Mode nextMode = levelProgression[currentLevelIndex + 1];
+        String message = currentMode.getName() + " cleared! Now prepare for " + nextMode.getName() + "!";
+        Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Level Cleared!");
             alert.setHeaderText(null);
             alert.setContentText(message);
             alert.showAndWait();
+            proceedToNext = true;
         });
+    }
 
-        currentLevelIndex++;
 
-        if (currentLevelIndex >= levelProgression.length) {
-            currentMode = null;
+    public void advanceLevel() {
+        proceedToNext = false;
+        if (currentLevelIndex + 1 >= levelProgression.length) {
             return;
         }
-
+        currentLevelIndex++;
         currentMode = levelProgression[currentLevelIndex];
         currentMaze = currentMode.createMaze();
     }

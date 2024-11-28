@@ -6,7 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 class AngryNeighborMode extends Mode {
     private Neighbor neighbor;
 
-    public AngryNeighborMode(String difficulty) {
+    public AngryNeighborMode(final String difficulty) {
         super(difficulty);
     }
 
