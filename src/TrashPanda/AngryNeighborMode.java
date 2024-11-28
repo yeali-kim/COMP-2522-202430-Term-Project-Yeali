@@ -64,7 +64,7 @@ class AngryNeighborMode extends Mode {
             if (neighbor.checkCollision(player, maze)) {
                 LevelManager.endGame();
             }
-            neighbor.draw(gc, player.getCellSize());
+            neighbor.draw(gc);
         }
     }
 }

@@ -25,14 +25,14 @@ class NightMode extends Mode {
     @Override
     public void applyEffects(GraphicsContext gc, Player player, Canvas canvas, Maze maze) {
         final double radius = 200;
-        double playerX = player.getX() * player.getCellSize();
-        double playerY = player.getY() * player.getCellSize();
+        double playerX = player.getX() * TrashPandaGame.CELL_SIZE;
+        double playerY = player.getY() * TrashPandaGame.CELL_SIZE;
 
-        double offsetX = (canvas.getWidth() - maze.getMazeSize() * player.getCellSize()) / 2;
-        double offsetY = (canvas.getHeight() - maze.getMazeSize() * player.getCellSize()) / 2;
+        double offsetX = (canvas.getWidth() - maze.getMazeSize() * TrashPandaGame.CELL_SIZE) / 2;
+        double offsetY = (canvas.getHeight() - maze.getMazeSize() * TrashPandaGame.CELL_SIZE) / 2;
 
-        double centerX = playerX + offsetX + (player.getCellSize() * 0.3);
-        double centerY = playerY + offsetY + (player.getCellSize() * 0.3);
+        double centerX = playerX + offsetX + (TrashPandaGame.CELL_SIZE * 0.3);
+        double centerY = playerY + offsetY + (TrashPandaGame.CELL_SIZE * 0.3);
 
         gc.save();
 
@@ -50,5 +50,7 @@ class NightMode extends Mode {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         gc.restore();
+
+        //
     }
 }
