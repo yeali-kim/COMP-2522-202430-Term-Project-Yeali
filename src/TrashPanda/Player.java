@@ -53,6 +53,7 @@ class Player {
     public double getY() {
         return y;
     }
+
     /**
      * Gets the last direction of the player.
      *
@@ -65,8 +66,8 @@ class Player {
     /**
      * Moves the player if movement is valid within the maze.
      *
-     * @param dx double that is the change in x-coordinate
-     * @param dy double that is the change in y-coordinate
+     * @param dx   double that is the change in x-coordinate
+     * @param dy   double that is the change in y-coordinate
      * @param maze Maze that is used to validate the move
      */
     public void move(final double dx, final double dy, final Maze maze) {
@@ -87,7 +88,7 @@ class Player {
      *
      * @param direction String that represents the player is facing
      *                  (W: Up, A: Left, S: Down, D: Right)
-     * @param moving boolean that represents whether the player is moving
+     * @param moving    boolean that represents whether the player is moving
      */
     public void updateImage(final String direction, final boolean moving) {
         final int arraySize = 4;
@@ -147,7 +148,9 @@ class Player {
      */
     public void draw(final GraphicsContext gc) {
         final double scaleFactor = 0.6;
-        gc.drawImage(currentImage, x * TrashPandaGame.CELL_SIZE, y * TrashPandaGame.CELL_SIZE,
-                TrashPandaGame.CELL_SIZE * scaleFactor, TrashPandaGame.CELL_SIZE * scaleFactor);
+        final double cellSize = TrashPandaGame.CELL_SIZE;
+
+        gc.drawImage(currentImage, x * cellSize, y * cellSize,
+                cellSize * scaleFactor, cellSize * scaleFactor);
     }
 }

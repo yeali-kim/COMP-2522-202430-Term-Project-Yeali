@@ -12,6 +12,7 @@ class Projectile {
     private final double vx;
     private final double vy;
     private final double projectileSize = 10;
+    private final double canvasSize = TrashPandaGame.CANVAS_SIZE;
 
     /**
      * Constructs a new projectile with specified position and velocity.
@@ -53,9 +54,9 @@ class Projectile {
      */
     public boolean isOutOfBounds() {
         return x + projectileSize / 2 < 0
-                || x - projectileSize / 2 > TrashPandaGame.CANVAS_SIZE
+                || x - projectileSize / 2 > canvasSize
                 || y + projectileSize / 2 < 0
-                || y - projectileSize / 2 > TrashPandaGame.CANVAS_SIZE;
+                || y - projectileSize / 2 > canvasSize;
     }
 
     /**
@@ -66,16 +67,17 @@ class Projectile {
      * @return true if projectile intersects with player, and false otherwise
      */
     public boolean intersects(final Player player, final Maze maze) {
+        final double cellSize = TrashPandaGame.CELL_SIZE;
         final double scaleFactor = 0.6;
         double mazeSize = maze.getMazeSize();
 
-        double playerX = (TrashPandaGame.CANVAS_SIZE - mazeSize * TrashPandaGame.CELL_SIZE) / 2
-                + player.getX() * TrashPandaGame.CELL_SIZE;
-        double playerY = (TrashPandaGame.CANVAS_SIZE - mazeSize * TrashPandaGame.CELL_SIZE) / 2
-                + player.getY() * TrashPandaGame.CELL_SIZE;
+        double playerX = (canvasSize - mazeSize * cellSize) / 2
+                + player.getX() * cellSize;
+        double playerY = (canvasSize - mazeSize * cellSize) / 2
+                + player.getY() * cellSize;
 
-        double playerWidth = TrashPandaGame.CELL_SIZE * scaleFactor;
-        double playerHeight = TrashPandaGame.CELL_SIZE * scaleFactor;
+        double playerWidth = cellSize * scaleFactor;
+        double playerHeight = cellSize * scaleFactor;
 
         //Projectile bounds
         double projectileLeft = x - projectileSize / 2;

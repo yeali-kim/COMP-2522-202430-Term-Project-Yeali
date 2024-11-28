@@ -51,18 +51,19 @@ class NightMode extends Mode {
     @Override
     public void applyEffects(final GraphicsContext gc, final Player player,
                              final Canvas canvas, final Maze maze) {
+        final double cellSize = TrashPandaGame.CELL_SIZE;
         final double scaleFactor = 0.6;
         final double radius = 150;
         final int radiusOffset = 20;
 
-        double playerX = player.getX() * TrashPandaGame.CELL_SIZE;
-        double playerY = player.getY() * TrashPandaGame.CELL_SIZE;
+        double playerX = player.getX() * cellSize;
+        double playerY = player.getY() * cellSize;
 
-        double offsetX = (canvas.getWidth() - maze.getMazeSize() * TrashPandaGame.CELL_SIZE) / 2;
-        double offsetY = (canvas.getHeight() - maze.getMazeSize() * TrashPandaGame.CELL_SIZE) / 2;
+        double offsetX = (canvas.getWidth() - maze.getMazeSize() * cellSize) / 2;
+        double offsetY = (canvas.getHeight() - maze.getMazeSize() * cellSize) / 2;
 
-        double centerX = playerX + offsetX + (TrashPandaGame.CELL_SIZE * scaleFactor / 2);
-        double centerY = playerY + offsetY + (TrashPandaGame.CELL_SIZE * scaleFactor / 2);
+        double centerX = playerX + offsetX + (cellSize * scaleFactor / 2);
+        double centerY = playerY + offsetY + (cellSize * scaleFactor / 2);
 
         gc.save();
 

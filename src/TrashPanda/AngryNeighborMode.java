@@ -37,12 +37,13 @@ class AngryNeighborMode extends Mode {
     @Override
     public Maze createMaze() {
         final double cellSize = 40;
+        final double canvasSize = TrashPandaGame.CANVAS_SIZE;
         int actualMazeSize = mazeSize * 2 + 1;
         double mazeSizeInPixels = actualMazeSize * cellSize;
-        double mazeStartX = (TrashPandaGame.CANVAS_SIZE - mazeSizeInPixels) / 2;
+        double mazeStartX = (canvasSize - mazeSizeInPixels) / 2;
 
         double neighborX = mazeStartX + (mazeSizeInPixels / 2) - cellSize / 2;
-        double neighborY = (TrashPandaGame.CANVAS_SIZE - mazeSizeInPixels) / 2 -  cellSize / 2;
+        double neighborY = (canvasSize - mazeSizeInPixels) / 2 -  cellSize / 2;
 
         neighbor = new Neighbor(neighborX, neighborY);
         return new Maze(mazeSize);

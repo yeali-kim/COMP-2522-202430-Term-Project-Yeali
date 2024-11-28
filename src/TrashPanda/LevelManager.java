@@ -5,13 +5,15 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 
+import java.io.Serializable;
+
 /**
  * Manages the progression of levels in the game.
  *
  * @author Yeali Kim
  * @version 2024
  */
-public class LevelManager {
+public class LevelManager implements Serializable {
     /**
      * Indicates if the game is over.
      */
@@ -21,9 +23,9 @@ public class LevelManager {
      */
     static boolean proceedToNext = false;
     private int currentLevelIndex = 0;
-    private Mode currentMode;
-    private Maze currentMaze;
-    private final Mode[] levelProgression = {
+    private transient Mode currentMode;
+    private transient Maze currentMaze;
+    private final transient Mode[] levelProgression = {
             new NormalMode("Easy"),     // Easy Normal
             new NormalMode("Hard"),     // Hard Normal
             new NightMode("Easy"),      // Easy Night
@@ -98,7 +100,6 @@ public class LevelManager {
                 alert.showAndWait(); // This blocks until the user clicks "OK"
                 Platform.exit();
             });
-
             return;
         }
 
@@ -132,7 +133,7 @@ public class LevelManager {
     /**
      * Applies the drawing effects of the current game mode to the given graphics context.
      *
-     * @param gc GraphicsContext used for drawing
+     * @param gc     GraphicsContext used for drawing
      * @param player Player instance
      * @param canvas Canvas on which to draw
      */

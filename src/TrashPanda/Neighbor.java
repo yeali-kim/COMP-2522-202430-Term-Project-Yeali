@@ -11,6 +11,7 @@ import java.util.Random;
  * and ends the game if it collides with the player.
  */
 class Neighbor {
+    private final double cellSize = TrashPandaGame.CELL_SIZE;
     private final double x;
     private final double y;
     private final List<Projectile> projectiles;
@@ -67,8 +68,7 @@ class Neighbor {
         double vx = speed * Math.cos(radians);
         double vy = speed * Math.sin(radians);
 
-        Projectile projectile = new Projectile(x + TrashPandaGame.CELL_SIZE / 2,
-                y + TrashPandaGame.CELL_SIZE / 2, vx, vy);
+        Projectile projectile = new Projectile(x + cellSize / 2, y + cellSize / 2, vx, vy);
         projectiles.add(projectile);
     }
 
@@ -79,9 +79,8 @@ class Neighbor {
      */
     public void draw(final GraphicsContext gc) {
         // Draw neighbor
-        gc.drawImage(ImageLoader.neighbor, x - TrashPandaGame.CELL_SIZE / 2,
-                y - TrashPandaGame.CELL_SIZE, TrashPandaGame.CELL_SIZE * 2,
-                TrashPandaGame.CELL_SIZE * 2);
+        gc.drawImage(ImageLoader.neighbor, x - cellSize / 2,
+                y - cellSize, cellSize * 2, cellSize * 2);
         // Draw all projectiles
         for (Projectile projectile : projectiles) {
             projectile.draw(gc);

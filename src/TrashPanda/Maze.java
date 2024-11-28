@@ -58,8 +58,8 @@ class Maze {
      * Recursively generates the maze paths by visiting cells in a random order
      * and creating walls between them.
      *
-     * @param x int that represents the x-coordinate of the current cell
-     * @param y int that represents the y-coordinate of the current cell
+     * @param x       int that represents the x-coordinate of the current cell
+     * @param y       int that represents the y-coordinate of the current cell
      * @param visited boolean that represents whether the cell is visited
      */
     private void recursiveBacktracking(final int x, final int y, final boolean[][] visited) {
@@ -103,14 +103,11 @@ class Maze {
     public void draw(final GraphicsContext gc) {
         for (int y = 0; y < maze.length; y++) {
             for (int x = 0; x < maze[y].length; x++) {
+                final double cellSize = TrashPandaGame.CELL_SIZE;
                 if (maze[y][x]) {
-                    gc.drawImage(ImageLoader.floor, x * TrashPandaGame.CELL_SIZE,
-                            y * TrashPandaGame.CELL_SIZE, TrashPandaGame.CELL_SIZE,
-                            TrashPandaGame.CELL_SIZE);
+                    gc.drawImage(ImageLoader.floor, x * cellSize, y * cellSize, cellSize, cellSize);
                 } else {
-                    gc.drawImage(ImageLoader.wall, x * TrashPandaGame.CELL_SIZE,
-                            y * TrashPandaGame.CELL_SIZE, TrashPandaGame.CELL_SIZE,
-                            TrashPandaGame.CELL_SIZE);
+                    gc.drawImage(ImageLoader.wall, x * cellSize, y * cellSize, cellSize, cellSize);
                 }
 
             }
