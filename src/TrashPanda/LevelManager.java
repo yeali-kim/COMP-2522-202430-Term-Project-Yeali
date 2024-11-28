@@ -66,7 +66,7 @@ public class LevelManager {
      *
      * @return Mode that is the current game mode
      */
-    public Mode getCurrentMode() {
+    Mode getCurrentMode() {
         return currentMode;
     }
 
