@@ -1,48 +1,75 @@
 package TrashPanda;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import java.util.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Represents a player (trash panda) that moves around the maze.
+ * Image is updated based on direction and movement.
+ */
 class Player {
+    //delay in milliseconds between image updates for animation
+    private static final long IMAGE_UPDATE_DELAY = 100;
     private double x;
     private double y;
-    private final int cellSize;
-    private Image currentImage;
-    private boolean hasShield;
     private final Map<String, Integer> imageIndices = new HashMap<>();
-
+    private Image currentImage;
     private String lastDirection = "S";
     private long lastUpdateTime = 0;
-    private static final long IMAGE_UPDATE_DELAY = 100;
 
-    public Player(double startX, double startY, int cellSize) {
+    /**
+     * Constructs a new player at the specified starting position on maze.
+     *
+     * @param startX double representing the x-coordinate of the player
+     * @param startY double representing the y-coordinate of the player
+     */
+    Player(final double startX, final double startY) {
         this.x = startX;
         this.y = startY;
-        this.cellSize = cellSize;
-        this.currentImage = ImageLoader.frontImages[0];
+        this.currentImage = ImageLoader.FRONT_IMAGES[0];
         imageIndices.put("W", 0);
         imageIndices.put("A", 0);
         imageIndices.put("S", 0);
         imageIndices.put("D", 0);
     }
 
+    /**
+     * Gets the current x-coordinate of the player.
+     *
+     * @return double that represents the x-coordinate
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * Gets the current y-coordinate of the player.
+     *
+     * @return double that represents the y-coordinate
+     */
     public double getY() {
         return y;
     }
-
+    /**
+     * Gets the last direction of the player.
+     *
+     * @return String that represents the last direction of the player
+     */
     public String getLastDirection() {
         return lastDirection;
     }
 
-    public int getCellSize() {
-        return cellSize;
-    }
-
-    public void move(double dx, double dy, Maze maze) {
+    /**
+     * Moves the player if movement is valid within the maze.
+     *
+     * @param dx double that is the change in x-coordinate
+     * @param dy double that is the change in y-coordinate
+     * @param maze Maze that is used to validate the move
+     */
+    public void move(final double dx, final double dy, final Maze maze) {
         double newX = x + dx;
         double newY = y + dy;
 
@@ -54,39 +81,57 @@ class Player {
         }
     }
 
-    public void updateImage(String direction, boolean moving) {
+    /**
+     * Updates the current image of the player based on movement and direction.
+     * Animates the player if moving, and resets to idle if stationary.
+     *
+     * @param direction String that represents the player is facing
+     *                  (W: Up, A: Left, S: Down, D: Right)
+     * @param moving boolean that represents whether the player is moving
+     */
+    public void updateImage(final String direction, final boolean moving) {
+        final int arraySize = 4;
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastUpdateTime >= IMAGE_UPDATE_DELAY) {
             if (moving) {
-                int index = (imageIndices.get(direction) + 1) % 4;
+                int index = (imageIndices.get(direction) + 1) % arraySize;
                 imageIndices.put(direction, index);
                 switch (direction) {
                     case "W":
-                        currentImage = ImageLoader.backImages[index];
+                        currentImage = ImageLoader.BACK_IMAGES[index];
                         break;
                     case "A":
-                        currentImage = ImageLoader.leftImages[index];
+                        currentImage = ImageLoader.LEFT_IMAGES[index];
                         break;
                     case "S":
-                        currentImage = ImageLoader.frontImages[index];
+                        currentImage = ImageLoader.FRONT_IMAGES[index];
                         break;
                     case "D":
-                        currentImage = ImageLoader.rightImages[index];
+                        currentImage = ImageLoader.RIGHT_IMAGES[index];
+                        break;
+                    default:
+                        // Handle unexpected direction by defaulting to front image
+                        currentImage = ImageLoader.FRONT_IMAGES[0];
                         break;
                 }
             } else {
+                // When player is idle, the image is the first frame based on the last direction.
                 switch (lastDirection) {
                     case "W":
-                        currentImage = ImageLoader.backImages[0];
+                        currentImage = ImageLoader.BACK_IMAGES[0];
                         break;
                     case "A":
-                        currentImage = ImageLoader.leftImages[0];
+                        currentImage = ImageLoader.LEFT_IMAGES[0];
                         break;
                     case "S":
-                        currentImage = ImageLoader.frontImages[0];
+                        currentImage = ImageLoader.FRONT_IMAGES[0];
                         break;
                     case "D":
-                        currentImage = ImageLoader.rightImages[0];
+                        currentImage = ImageLoader.RIGHT_IMAGES[0];
+                        break;
+                    default:
+                        // Handle unexpected direction by defaulting to front image
+                        currentImage = ImageLoader.FRONT_IMAGES[0];
                         break;
                 }
             }
@@ -95,7 +140,14 @@ class Player {
         lastDirection = direction;
     }
 
-    public void draw(GraphicsContext gc) {
-        gc.drawImage(currentImage, x * cellSize, y * cellSize, cellSize * 0.6, cellSize * 0.6);
+    /**
+     * Draws the player on the specified graphics context.
+     *
+     * @param gc GraphicsContext on which to draw the player.
+     */
+    public void draw(final GraphicsContext gc) {
+        final double scaleFactor = 0.6;
+        gc.drawImage(currentImage, x * TrashPandaGame.CELL_SIZE, y * TrashPandaGame.CELL_SIZE,
+                TrashPandaGame.CELL_SIZE * scaleFactor, TrashPandaGame.CELL_SIZE * scaleFactor);
     }
 }
