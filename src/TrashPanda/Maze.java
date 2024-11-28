@@ -2,38 +2,74 @@ package TrashPanda;
 
 import javafx.scene.canvas.GraphicsContext;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+/**
+ * Represents a maze using recursive backtracking with walls and paths.
+ */
 class Maze {
     private final boolean[][] maze;
     private final int size;
 
-    public Maze(int mazeSize) {
+    /**
+     * Constructs a Maze with the specified maze size.
+     *
+     * @param mazeSize int that represents logical size of the maze (number of cells)
+     */
+    Maze(final int mazeSize) {
         this.size = mazeSize * 2 + 1;
         this.maze = new boolean[size][size];
         generateMaze();
     }
 
+    /**
+     * Retrieves the grid size of the maze.
+     *
+     * @return int that represents the maze grid size
+     */
     public int getMazeSize() {
         return size;
     }
 
-    boolean isValidMove(double x, double y) {
+    /**
+     * Checks if a move to specific coordinates is valid within the maze.
+     *
+     * @param x double that represents the x-coordinate of the move
+     * @param y double that represents the y-coordinate of the move
+     * @return true if move is valid and within the maze and false otherwise
+     */
+    boolean isValidMove(final double x, final double y) {
+        final double downsizeFactor = 0.5;
         int gridX = (int) Math.floor(x);
         int gridY = (int) Math.floor(y);
 
-        int nextX = (int) Math.floor(x + 1 - 0.5);
-        int nextY = (int) Math.floor(y + 1 - 0.5);
+        int nextX = (int) Math.floor(x + 1 - downsizeFactor);
+        int nextY = (int) Math.floor(y + 1 - downsizeFactor);
 
-        return gridX >= 0 && gridX < maze.length &&
-                gridY >= 0 && gridY < maze.length &&
-                maze[gridY][gridX] && maze[gridY][nextX] && maze[nextY][gridX] && maze[nextY][nextX];
+        return gridX >= 0 && gridX < maze.length
+                && gridY >= 0 && gridY < maze.length
+                && maze[gridY][gridX] && maze[gridY][nextX]
+                && maze[nextY][gridX] && maze[nextY][nextX];
     }
 
-    private void recursiveBacktracking(int x, int y, boolean[][] visited) {
+    /**
+     * Recursively generates the maze paths by visiting cells in a random order
+     * and creating walls between them.
+     *
+     * @param x int that represents the x-coordinate of the current cell
+     * @param y int that represents the y-coordinate of the current cell
+     * @param visited boolean that represents whether the cell is visited
+     */
+    private void recursiveBacktracking(final int x, final int y, final boolean[][] visited) {
         visited[y / 2][x / 2] = true;
         int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-        List<Integer> dirs = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+        final int totalDirections = directions.length;
+        List<Integer> dirs = new ArrayList<>();
+        for (int i = 0; i < totalDirections; i++) {
+            dirs.add(i);
+        }
         Collections.shuffle(dirs);
 
         for (int dir : dirs) {
@@ -49,6 +85,9 @@ class Maze {
         }
     }
 
+    /**
+     * Generates a mze using recursive backtracking algorithm.
+     */
     private void generateMaze() {
         boolean[][] visited = new boolean[size / 2 + 1][size / 2 + 1];
         maze[1][1] = true;
@@ -56,13 +95,22 @@ class Maze {
         recursiveBacktracking(1, 1, visited);
     }
 
-    public void draw(GraphicsContext gc, int cellSize) {
+    /**
+     * Draws the maze on the specified graphics context.
+     *
+     * @param gc GraphicsContext on which to draw the maze
+     */
+    public void draw(final GraphicsContext gc) {
         for (int y = 0; y < maze.length; y++) {
             for (int x = 0; x < maze[y].length; x++) {
                 if (maze[y][x]) {
-                    gc.drawImage(ImageLoader.floor, x * cellSize, y * cellSize, cellSize, cellSize);
+                    gc.drawImage(ImageLoader.floor, x * TrashPandaGame.CELL_SIZE,
+                            y * TrashPandaGame.CELL_SIZE, TrashPandaGame.CELL_SIZE,
+                            TrashPandaGame.CELL_SIZE);
                 } else {
-                    gc.drawImage(ImageLoader.wall, x * cellSize, y * cellSize, cellSize, cellSize);
+                    gc.drawImage(ImageLoader.wall, x * TrashPandaGame.CELL_SIZE,
+                            y * TrashPandaGame.CELL_SIZE, TrashPandaGame.CELL_SIZE,
+                            TrashPandaGame.CELL_SIZE);
                 }
 
             }
