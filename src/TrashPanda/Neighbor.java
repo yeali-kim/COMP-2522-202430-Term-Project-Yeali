@@ -6,16 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Represents an angry neighbor that periodically shoots projectiles in random directions
+ * and ends the game if it collides with the player.
+ */
 class Neighbor {
-    private double x;
-    private double y;
-    private final double width = 40;
-    private final double height = 20;
+    private final double x;
+    private final double y;
     private final List<Projectile> projectiles;
     private long lastShotTime;
     private final Random random;
 
-    public Neighbor(double x, double y) {
+    /**
+     * Constructs a neighbor at the specified coordinates.
+     *
+     * @param x double that represents the x-coordinate of the neighbor
+     * @param y double that represents the y-coordinate of the neighbor
+     */
+    Neighbor(final double x, final double y) {
         this.x = x;
         this.y = y;
         this.projectiles = new ArrayList<>();
@@ -23,10 +31,16 @@ class Neighbor {
         this.lastShotTime = System.currentTimeMillis();
     }
 
+    /**
+     * Updates the neighbor's state by checking if it should shoot a projectile
+     * and update all active projectiles.
+     */
     public void update() {
-        long SHOT_DELAY = random.nextLong(1, 10) * 100;
+        final int delayBound = 10;
+        final int timeMultiple = 100;
+        long shotDelay = random.nextLong(1, delayBound) * timeMultiple;
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastShotTime >= SHOT_DELAY) {
+        if (currentTime - lastShotTime >= shotDelay) {
             shoot();
             lastShotTime = currentTime;
         }
@@ -37,31 +51,51 @@ class Neighbor {
         });
     }
 
+    /**
+     * Fires a projectile in a random direction with a random speed.
+     */
     private void shoot() {
+        final int degree = 180;
+        final int speedBound = 3;
         // Random angle between 0 and 180 degrees
-        double angle = random.nextDouble() * 180;
+        double angle = random.nextDouble() * degree;
         // Random speed between 3 and 6
-        double speed = random.nextDouble() * 3 + 3;
+        double speed = random.nextDouble() * speedBound + speedBound;
         // Convert angle to radians
         double radians = Math.toRadians(angle);
         // Calculate velocity components
         double vx = speed * Math.cos(radians);
         double vy = speed * Math.sin(radians);
 
-        Projectile projectile = new Projectile(x + width / 2, y + height, vx, vy);
+        Projectile projectile = new Projectile(x + TrashPandaGame.CELL_SIZE / 2,
+                y + TrashPandaGame.CELL_SIZE / 2, vx, vy);
         projectiles.add(projectile);
     }
 
-    public void draw(GraphicsContext gc, int cellSize) {
+    /**
+     * Draws the neighbor and its projectiles on the canvas.
+     *
+     * @param gc GraphicsContext used to draw on the canvas
+     */
+    public void draw(final GraphicsContext gc) {
         // Draw neighbor
-        gc.drawImage(ImageLoader.neighbor, x - 20, y - 40, cellSize * 2, cellSize * 2);
+        gc.drawImage(ImageLoader.neighbor, x - TrashPandaGame.CELL_SIZE / 2,
+                y - TrashPandaGame.CELL_SIZE, TrashPandaGame.CELL_SIZE * 2,
+                TrashPandaGame.CELL_SIZE * 2);
         // Draw all projectiles
         for (Projectile projectile : projectiles) {
             projectile.draw(gc);
         }
     }
 
-    public boolean checkCollision(Player player, Maze currentMaze) {
+    /**
+     * Checks if any of the Neighbor's projectiles have collided with the player.
+     *
+     * @param player      Player with which to check for collision
+     * @param currentMaze Maze used to determine player positioning
+     * @return true if collision is made, false otherwise
+     */
+    public boolean checkCollision(final Player player, final Maze currentMaze) {
         for (Projectile projectile : projectiles) {
             if (projectile.intersects(player, currentMaze)) {
                 return true;
