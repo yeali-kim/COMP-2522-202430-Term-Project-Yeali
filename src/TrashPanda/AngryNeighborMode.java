@@ -3,20 +3,11 @@ package TrashPanda;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-class AngryNeighborMode implements Mode {
-    private final int mazeSize;
-    private final String difficulty;
+class AngryNeighborMode extends Mode {
     private Neighbor neighbor;
 
     public AngryNeighborMode(String difficulty) {
-        if (difficulty.equals("Easy")) {
-            this.mazeSize = 5;
-        } else if (difficulty.equals("Hard")) {
-            this.mazeSize = 10;
-        } else {
-            throw new IllegalArgumentException("Invalid difficulty: " + difficulty);
-        }
-        this.difficulty = difficulty;
+        super(difficulty);
     }
 
     @Override
@@ -29,9 +20,8 @@ class AngryNeighborMode implements Mode {
         int cellSize = 40;
         int actualMazeSize = mazeSize * 2 + 1; // Convert logical size to grid size
         double mazeSizeInPixels = actualMazeSize * cellSize;
-        double mazeStartX = (1000 - mazeSizeInPixels) / 2; // Center maze horizontally
+        double mazeStartX = (1000 - mazeSizeInPixels) / 2;
 
-        // Position neighbor
         double neighborX = mazeStartX + (mazeSizeInPixels / 2) - 20; // Center neighbor
         double neighborY = (1000 - mazeSizeInPixels) / 2 - 40; // Place 40 pixels above the maze
 

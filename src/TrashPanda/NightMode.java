@@ -7,19 +7,9 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 
-class NightMode implements Mode {
-    private final int mazeSize;
-    private final String difficulty;
-
+class NightMode extends Mode {
     public NightMode(String difficulty) {
-        if (difficulty.equals("Easy")) {
-            this.mazeSize = 5;
-        } else if (difficulty.equals("Hard")) {
-            this.mazeSize = 10;
-        } else {
-            throw new IllegalArgumentException("Invalid difficulty: " + difficulty);
-        }
-        this.difficulty = difficulty;
+        super(difficulty);
     }
 
     @Override
@@ -33,43 +23,31 @@ class NightMode implements Mode {
     }
 
     @Override
-    public void applyEffects(GraphicsContext gc, Player player, Canvas canvas, Maze currentMaze) {
+    public void applyEffects(GraphicsContext gc, Player player, Canvas canvas, Maze maze) {
         final double radius = 200;
         double playerX = player.getX() * player.getCellSize();
         double playerY = player.getY() * player.getCellSize();
 
-        double offsetX = (canvas.getWidth() - currentMaze.getMazeSize() * player.getCellSize()) / 2;
-        double offsetY = (canvas.getHeight() - currentMaze.getMazeSize() * player.getCellSize()) / 2;
+        double offsetX = (canvas.getWidth() - maze.getMazeSize() * player.getCellSize()) / 2;
+        double offsetY = (canvas.getHeight() - maze.getMazeSize() * player.getCellSize()) / 2;
 
         double centerX = playerX + offsetX + (player.getCellSize() * 0.3);
         double centerY = playerY + offsetY + (player.getCellSize() * 0.3);
 
         gc.save();
 
-        // Clip circle
-        gc.beginPath();
-        gc.rect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.arc(centerX, centerY, radius / 2, radius / 2, 0, 360);
-        gc.closePath();
-
-        gc.setFill(Color.BLACK);
-        gc.fill();
-
-        // Gradient effect
+        // Draw gradient effect
         RadialGradient gradient = new RadialGradient(
                 0, 0,
-                centerX,
-                centerY,
+                centerX, centerY,
                 radius / 2 + 20,
-                false,
-                CycleMethod.NO_CYCLE,
+                false, CycleMethod.NO_CYCLE,
                 new Stop(0.6, Color.TRANSPARENT),
                 new Stop(1.0, Color.BLACK)
         );
 
         gc.setFill(gradient);
-        gc.fillOval(centerX - (radius / 2 + 20), centerY - (radius / 2 + 20),
-                radius + 40, radius + 40);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         gc.restore();
     }

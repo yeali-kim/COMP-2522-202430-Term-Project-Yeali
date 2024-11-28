@@ -3,32 +3,29 @@ package TrashPanda;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-class CompositeMode implements Mode {
-    private final String difficulty;
-    private final Mode[] modes;
+class CompositeMode extends Mode {
+    private final Mode nightMode;
+    private final Mode angryNeighborMode;
 
     public CompositeMode(String difficulty) {
-        this.difficulty = difficulty;
-        modes = new Mode[]{
-                new NightMode(difficulty),
-                new AngryNeighborMode(difficulty)
-        };
+        super(difficulty);
+        this.nightMode = new NightMode(difficulty);
+        this.angryNeighborMode = new AngryNeighborMode(difficulty);
     }
 
     @Override
     public String getName() {
-        return difficulty + "Composite Mode";
+        return difficulty + " Composite Mode";
     }
 
     @Override
     public Maze createMaze() {
-        return modes[1].createMaze();
+        return angryNeighborMode.createMaze(); // You could combine or choose one
     }
 
     @Override
-    public void applyEffects(GraphicsContext gc, Player player, Canvas canvas, Maze currentMaze) {
-        for (Mode mode : modes) {
-            mode.applyEffects(gc, player, canvas, currentMaze);
-        }
+    public void applyEffects(GraphicsContext gc, Player player, Canvas canvas, Maze maze) {
+        nightMode.applyEffects(gc, player, canvas, maze);
+        angryNeighborMode.applyEffects(gc, player, canvas, maze);
     }
 }
