@@ -5,13 +5,24 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 
+/**
+ * Manages the progression of levels in the game.
+ *
+ * @author Yeali Kim
+ * @version 2024
+ */
 public class LevelManager {
-    private Mode currentMode;
-    private int currentLevelIndex = 0;
-    private Maze currentMaze;
+    /**
+     * Indicates if the game is over.
+     */
     static boolean isGameOver = false;
+    /**
+     * Indicates whether the player can proceed to the next level.
+     */
     static boolean proceedToNext = false;
-
+    private int currentLevelIndex = 0;
+    private Mode currentMode;
+    private Maze currentMaze;
     private final Mode[] levelProgression = {
             new NormalMode("Easy"),     // Easy Normal
             new NormalMode("Hard"),     // Hard Normal
@@ -24,10 +35,47 @@ public class LevelManager {
             null                                 // Game Won
     };
 
+    /**
+     * Constructs a LevelManager instance, initializing the first game mode.
+     */
     public LevelManager() {
         currentMode = levelProgression[currentLevelIndex];
     }
 
+    /**
+     * Ends the game and displays an alert.
+     */
+    public static void endGame() {
+        if (isGameOver) {
+            return;
+        }
+        isGameOver = true;
+
+        javafx.application.Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game Over");
+            alert.setHeaderText(null);
+            alert.setContentText("You have been caught by the Angry Neighbor! Game Over.");
+            alert.showAndWait();
+            System.exit(0);
+        });
+    }
+
+    /**
+     * Retrieves the current game mode.
+     *
+     * @return Mode that is the current game mode
+     */
+    public Mode getCurrentMode() {
+        return currentMode;
+    }
+
+    /**
+     * Retrieves the current maze.
+     * If it does not exist, create one based on the current mode.
+     *
+     * @return Maze that represents the current maze instance
+     */
     Maze getCurrentMaze() {
         if (currentMaze == null) {
             currentMaze = currentMode.createMaze();
@@ -35,10 +83,10 @@ public class LevelManager {
         return currentMaze;
     }
 
-    public Mode getCurrentMode() {
-        return currentMode;
-    }
-
+    /**
+     * Completes the current level and displays the appropriate alert.
+     * If user does not click on alert, does not proceed to next or exit.
+     */
     public void completeLevel() {
         if (levelProgression[currentLevelIndex + 1] == null) {
             // Display "Game Won" alert and stop the game
@@ -56,7 +104,8 @@ public class LevelManager {
 
         // Display a "Level Cleared" message and wait for user input
         Mode nextMode = levelProgression[currentLevelIndex + 1];
-        String message = currentMode.getName() + " cleared! Now prepare for " + nextMode.getName() + "!";
+        String message = currentMode.getName()
+                + " cleared! Now prepare for " + nextMode.getName() + "!";
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Level Cleared!");
@@ -67,7 +116,9 @@ public class LevelManager {
         });
     }
 
-
+    /**
+     * Advances to the next level and updates the current mode and maze.
+     */
     public void advanceLevel() {
         proceedToNext = false;
         if (currentLevelIndex + 1 >= levelProgression.length) {
@@ -78,23 +129,15 @@ public class LevelManager {
         currentMaze = currentMode.createMaze();
     }
 
-    public static void endGame() {
-        if (isGameOver) {
-            return;
-        }
-        isGameOver = true;
-
-        javafx.application.Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Game Over");
-            alert.setHeaderText(null);
-            alert.setContentText("You have been caught by the Angry Neighbor! Game Over.");
-            alert.showAndWait();
-            System.exit(0);
-        });
-    }
-
-    public void applyModeDrawingEffects(GraphicsContext gc, Player player, Canvas canvas) {
+    /**
+     * Applies the drawing effects of the current game mode to the given graphics context.
+     *
+     * @param gc GraphicsContext used for drawing
+     * @param player Player instance
+     * @param canvas Canvas on which to draw
+     */
+    void applyModeDrawingEffects(final GraphicsContext gc,
+                                 final Player player, final Canvas canvas) {
         currentMode.applyEffects(gc, player, canvas, currentMaze);
     }
 }
