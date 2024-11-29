@@ -147,6 +147,11 @@ public class TrashPandaGame extends Application {
         player.draw(gc);
         gc.restore();
         levelManager.applyModeDrawingEffects(gc, player, canvas);
+        if (levelManager.getCurrentMode().getName().equals("Hard Composite Mode")) {
+            maze.drawDestination(gc);
+        } else {
+            maze.drawGoal(gc);
+        }
     }
 
     /**

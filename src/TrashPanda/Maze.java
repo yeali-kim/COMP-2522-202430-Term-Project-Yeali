@@ -10,6 +10,8 @@ import java.util.List;
  * Represents a maze using recursive backtracking with walls and paths.
  */
 class Maze {
+    private final double cellSize = TrashPandaGame.CELL_SIZE;
+    private final double canvasSize = TrashPandaGame.CANVAS_SIZE;
     private final boolean[][] maze;
     private final int size;
 
@@ -103,14 +105,24 @@ class Maze {
     public void draw(final GraphicsContext gc) {
         for (int y = 0; y < maze.length; y++) {
             for (int x = 0; x < maze[y].length; x++) {
-                final double cellSize = TrashPandaGame.CELL_SIZE;
                 if (maze[y][x]) {
                     gc.drawImage(ImageLoader.floor, x * cellSize, y * cellSize, cellSize, cellSize);
                 } else {
                     gc.drawImage(ImageLoader.wall, x * cellSize, y * cellSize, cellSize, cellSize);
                 }
-
             }
         }
+    }
+
+    public void drawGoal(final GraphicsContext gc) {
+        final double startingPos = (canvasSize - size * cellSize) / 2;
+        gc.drawImage(ImageLoader.endLevel, startingPos + (size - 2) * cellSize,
+                startingPos + (size - 2) * cellSize, cellSize, cellSize);
+    }
+
+    public void drawDestination(final GraphicsContext gc) {
+        final double startingPos = (canvasSize - size * cellSize) / 2;
+        gc.drawImage(ImageLoader.destination, startingPos + (size - 2) * cellSize,
+                startingPos + (size - 2) * cellSize, cellSize, cellSize);
     }
 }

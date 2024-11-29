@@ -24,9 +24,17 @@ public final class ImageLoader {
      **/
     static Image floor;
     /**
-     * Image representing a neighbor.
+     * Image representing the neighbor.
      **/
     static Image neighbor;
+    /**
+     * Image representing the destination.
+     **/
+    static Image destination;
+    /**
+     * Image representing the end of a level.
+     **/
+    static Image endLevel;
     /**
      * Array of front images for character.
      **/
@@ -68,5 +76,9 @@ public final class ImageLoader {
                 ImageLoader.class.getResourceAsStream("/images/floor.png")));
         neighbor = new Image(Objects.requireNonNull(
                 ImageLoader.class.getResourceAsStream("/images/neighbor.png")));
+        destination = new Image(Objects.requireNonNull(
+                ImageLoader.class.getResourceAsStream("/images/destination.png")));
+        endLevel = new Image(Objects.requireNonNull(
+                ImageLoader.class.getResourceAsStream("/images/endLevel.png")));
     }
 }
