@@ -96,7 +96,7 @@ public class LevelManager implements Serializable {
      * If user does not click on alert, does not proceed to next or exit.
      */
     public void completeLevel() {
-        //If game won, display game won alert, remove save file, and exit program when user presses okay.
+        //If game won, display game won alert, remove save file, and exit program.
         if (levelProgression[currentLevelIndex + 1] == null) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -159,7 +159,7 @@ public class LevelManager implements Serializable {
             outStream.writeObject(currentLevelIndex + 1);
             System.out.println("Game state saved in saveFile.ser");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Failed to save game state.");
         }
     }
 
@@ -179,7 +179,7 @@ public class LevelManager implements Serializable {
             currentMaze = currentMode.createMaze();
             System.out.println("Game state loaded from saveFile.ser");
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Failed to load game state.");
         }
     }
 
