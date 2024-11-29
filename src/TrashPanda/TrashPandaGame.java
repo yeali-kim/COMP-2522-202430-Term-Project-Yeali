@@ -57,6 +57,7 @@ public class TrashPandaGame extends Application {
     private void initializeGameComponents() {
         ImageLoader.loadImages();
         levelManager = new LevelManager();
+        levelManager.loadGame();
         initializeLevel();
         canvas = new Canvas(CANVAS_SIZE, CANVAS_SIZE);
         StackPane root = new StackPane(canvas);
