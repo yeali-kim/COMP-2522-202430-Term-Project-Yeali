@@ -114,12 +114,22 @@ class Maze {
         }
     }
 
+    /**
+     * Draws the goal image at the right bottom corner of the maze.
+     *
+     * @param gc GraphicsContext on which to draw the goal
+     */
     public void drawGoal(final GraphicsContext gc) {
         final double startingPos = (canvasSize - size * cellSize) / 2;
         gc.drawImage(ImageLoader.endLevel, startingPos + (size - 2) * cellSize,
                 startingPos + (size - 2) * cellSize, cellSize, cellSize);
     }
 
+    /**
+     * Draws the destination image at the right bottom corner of the maze.
+     *
+     * @param gc GraphicsContext on which to draw the goal
+     */
     public void drawDestination(final GraphicsContext gc) {
         final double startingPos = (canvasSize - size * cellSize) / 2;
         gc.drawImage(ImageLoader.destination, startingPos + (size - 2) * cellSize,
