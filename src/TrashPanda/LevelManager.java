@@ -5,6 +5,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -86,25 +92,26 @@ public class LevelManager implements Serializable {
     }
 
     /**
-     * Completes the current level and displays the appropriate alert.
+     * Completes the current level, saves the progression, and displays the appropriate alert.
      * If user does not click on alert, does not proceed to next or exit.
      */
     public void completeLevel() {
+        //If game won, display game won alert, remove save file, and exit program when user presses okay.
         if (levelProgression[currentLevelIndex + 1] == null) {
-            // Display "Game Won" alert and stop the game
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Game Won!");
                 alert.setHeaderText(null);
                 alert.setContentText("Congratulations! You have arrived home safely!");
-                alert.showAndWait(); // This blocks until the user clicks "OK"
+                alert.showAndWait();
+                removeSaveFile();
                 Platform.exit();
             });
             return;
         }
 
-        // Display a "Level Cleared" message and wait for user input
         Mode nextMode = levelProgression[currentLevelIndex + 1];
+        saveGame();
         String message = currentMode.getName()
                 + " cleared! Now prepare for " + nextMode.getName() + "!";
         Platform.runLater(() -> {
@@ -116,6 +123,7 @@ public class LevelManager implements Serializable {
             proceedToNext = true;
         });
     }
+
 
     /**
      * Advances to the next level and updates the current mode and maze.
@@ -140,5 +148,50 @@ public class LevelManager implements Serializable {
     void applyModeDrawingEffects(final GraphicsContext gc,
                                  final Player player, final Canvas canvas) {
         currentMode.applyEffects(gc, player, canvas, currentMaze);
+    }
+
+    /**
+     * Saves the current level + 1 to a file named "saveFile.ser".
+     */
+    void saveGame() {
+        try (FileOutputStream fileOut = new FileOutputStream("saveFile.ser");
+             ObjectOutputStream outStream = new ObjectOutputStream(fileOut)) {
+            outStream.writeObject(currentLevelIndex + 1);
+            System.out.println("Game state saved in saveFile.ser");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Loads the saved level from the "saveFile.ser" file if it exists.
+     */
+    void loadGame() {
+        File saveFile = new File("saveFile.ser");
+        if (!saveFile.exists()) {
+            System.out.println("No saved game found.");
+            return;
+        }
+        try (FileInputStream fileIn = new FileInputStream(saveFile);
+             ObjectInputStream inStream = new ObjectInputStream(fileIn)) {
+            currentLevelIndex = (int) inStream.readObject();
+            currentMode = levelProgression[currentLevelIndex];
+            currentMaze = currentMode.createMaze();
+            System.out.println("Game state loaded from saveFile.ser");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Removes the save file "saveFile.ser" if it exists.
+     */
+    private void removeSaveFile() {
+        File saveFile = new File("saveFile.ser");
+        if (saveFile.exists() && saveFile.delete()) {
+            System.out.println("Save file deleted.");
+        } else {
+            System.out.println("Failed to delete save file or no save file exists.");
+        }
     }
 }
