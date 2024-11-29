@@ -68,7 +68,7 @@ class Projectile {
      */
     public boolean intersects(final Player player, final Maze maze) {
         final double cellSize = TrashPandaGame.CELL_SIZE;
-        final double scaleFactor = 0.6;
+        final double hitBoxScale = 0.5;
         double mazeSize = maze.getMazeSize();
 
         double playerX = (canvasSize - mazeSize * cellSize) / 2
@@ -76,8 +76,8 @@ class Projectile {
         double playerY = (canvasSize - mazeSize * cellSize) / 2
                 + player.getY() * cellSize;
 
-        double playerWidth = cellSize * scaleFactor;
-        double playerHeight = cellSize * scaleFactor;
+        double playerWidth = cellSize * hitBoxScale;
+        double playerHeight = cellSize * hitBoxScale;
 
         //Projectile bounds
         double projectileLeft = x - projectileSize / 2;
