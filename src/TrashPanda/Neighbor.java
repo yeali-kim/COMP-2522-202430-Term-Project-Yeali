@@ -57,11 +57,10 @@ class Neighbor {
      */
     private void shoot() {
         final int degree = 180;
-        final int speedBound = 3;
         // Random angle between 0 and 180 degrees
         double angle = random.nextDouble() * degree;
-        // Random speed between 3 and 6
-        double speed = random.nextDouble() * speedBound + speedBound;
+        // Random speed between 1.0 and 2.0
+        double speed = random.nextDouble() + 1;
         // Convert angle to radians
         double radians = Math.toRadians(angle);
         // Calculate velocity components
