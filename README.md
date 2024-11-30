@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center; align-items: center; height: auto;">
+<div align="center">
     <img width="289" src="./src/images/destination.png" alt="RaccoonFamily" />
 </div>
 
