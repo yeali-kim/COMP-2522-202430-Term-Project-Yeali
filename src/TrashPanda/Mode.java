@@ -32,7 +32,8 @@ abstract class Mode {
         } else if (difficulty.equals("Hard")) {
             this.mazeSize = hardMaze;
         } else {
-            throw new IllegalArgumentException("Invalid difficulty: " + difficulty);
+            throw new IllegalArgumentException("\"" + difficulty + "\" is an invalid entry. "
+                    + "Only \"Easy\" and \"Hard\" are acceptable.");
         }
         this.difficulty = difficulty;
     }
