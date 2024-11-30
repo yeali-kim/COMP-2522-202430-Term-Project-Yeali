@@ -21,7 +21,7 @@ import java.util.Objects;
  * @author Yeali Kim
  * @version 2024
  */
-public class LevelManager implements Serializable {
+class LevelManager implements Serializable {
     /**
      * Indicates if the game is over.
      */
@@ -48,7 +48,7 @@ public class LevelManager implements Serializable {
     /**
      * Constructs a LevelManager instance, initializing the first game mode.
      */
-    public LevelManager() {
+    LevelManager() {
         currentMode = levelProgression[currentLevelIndex];
     }
 
