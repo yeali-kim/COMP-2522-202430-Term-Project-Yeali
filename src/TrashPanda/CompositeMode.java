@@ -62,7 +62,7 @@ class CompositeMode extends Mode {
 
     @Override
     public String toString() {
-        return "CompositeMode{" + ", mazeSize="
+        return "CompositeMode{" + "mazeSize="
                 + mazeSize + ", difficulty='" + difficulty + '\'' + '}';
     }
 

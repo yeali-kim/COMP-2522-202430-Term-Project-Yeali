@@ -85,7 +85,7 @@ class NightMode extends Mode {
 
     @Override
     public String toString() {
-        return "NightMode{" + ", mazeSize="
+        return "NightMode{" + "mazeSize="
                 + mazeSize + ", difficulty='" + difficulty + '\'' + '}';
     }
 

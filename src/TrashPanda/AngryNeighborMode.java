@@ -73,7 +73,7 @@ class AngryNeighborMode extends Mode {
 
     @Override
     public String toString() {
-        return "AngryNeighborMode{" + ", mazeSize="
+        return "AngryNeighborMode{" + "mazeSize="
                 + mazeSize + ", difficulty='" + difficulty + '\'' + '}';
     }
 

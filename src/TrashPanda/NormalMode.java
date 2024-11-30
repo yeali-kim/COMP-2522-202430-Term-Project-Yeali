@@ -54,7 +54,7 @@ class NormalMode extends Mode {
 
     @Override
     public String toString() {
-        return "NormalMode{" + ", mazeSize="
+        return "NormalMode{" + "mazeSize="
                 + mazeSize + ", difficulty='" + difficulty + '\'' + '}';
     }
 
@@ -63,7 +63,7 @@ class NormalMode extends Mode {
         if (this == object) {
             return true;
         }
-        if (!(object instanceof AngryNeighborMode that)) {
+        if (!(object instanceof NormalMode that)) {
             return false;
         }
         return Objects.equals(mazeSize, that.mazeSize)
