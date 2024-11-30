@@ -3,8 +3,10 @@ package TrashPanda;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a maze using recursive backtracking with walls and paths.
@@ -134,5 +136,29 @@ class Maze {
         final double startingPos = (canvasSize - size * cellSize) / 2;
         gc.drawImage(ImageLoader.destination, startingPos + (size - 2) * cellSize,
                 startingPos + (size - 2) * cellSize, cellSize, cellSize);
+    }
+
+    @Override
+    public String toString() {
+        return "Maze{" + "cellSize=" + cellSize
+                + ", canvasSize=" + canvasSize
+                + ", maze=" + Arrays.toString(maze)
+                + ", size=" + size + '}';
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Maze maze1)) {
+            return false;
+        }
+        return size == maze1.size && Objects.deepEquals(maze, maze1.maze);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Arrays.deepHashCode(maze), size);
     }
 }

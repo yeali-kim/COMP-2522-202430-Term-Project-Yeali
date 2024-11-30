@@ -3,6 +3,8 @@ package TrashPanda;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.Objects;
+
 /**
  * Represents the Angry Neighbor Mode where an Angry Neighbor shoots projectiles in random direction
  * and ends the game if the projectile collides with the player.
@@ -43,7 +45,7 @@ class AngryNeighborMode extends Mode {
         double mazeStartX = (canvasSize - mazeSizeInPixels) / 2;
 
         double neighborX = mazeStartX + (mazeSizeInPixels / 2) - cellSize / 2;
-        double neighborY = (canvasSize - mazeSizeInPixels) / 2 -  cellSize / 2;
+        double neighborY = (canvasSize - mazeSizeInPixels) / 2 - cellSize / 2;
 
         neighbor = new Neighbor(neighborX, neighborY);
         return new Maze(mazeSize);
@@ -52,10 +54,10 @@ class AngryNeighborMode extends Mode {
     /**
      * Apply the game effect for this mode and draw neighbor.
      *
-     * @param gc GraphicsContext used for rendering the game
+     * @param gc     GraphicsContext used for rendering the game
      * @param player Player representing the player
      * @param canvas Canvas for rendering the maze
-     * @param maze Maze that is the current maze
+     * @param maze   Maze that is the current maze
      */
     @Override
     public void applyEffects(final GraphicsContext gc, final Player player,
@@ -67,5 +69,28 @@ class AngryNeighborMode extends Mode {
             }
             neighbor.draw(gc);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "AngryNeighborMode{" + ", mazeSize="
+                + mazeSize + ", difficulty='" + difficulty + '\'' + '}';
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof AngryNeighborMode that)) {
+            return false;
+        }
+        return Objects.equals(mazeSize, that.mazeSize)
+                && Objects.equals(difficulty, that.difficulty);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(mazeSize);
     }
 }

@@ -3,6 +3,8 @@ package TrashPanda;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.Objects;
+
 /**
  * Represents a composite mode that combines effects from night mode and angry neighbor mode.
  */
@@ -56,5 +58,28 @@ class CompositeMode extends Mode {
                              final Canvas canvas, final Maze maze) {
         nightMode.applyEffects(gc, player, canvas, maze);
         angryNeighborMode.applyEffects(gc, player, canvas, maze);
+    }
+
+    @Override
+    public String toString() {
+        return "CompositeMode{" + ", mazeSize="
+                + mazeSize + ", difficulty='" + difficulty + '\'' + '}';
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof AngryNeighborMode that)) {
+            return false;
+        }
+        return Objects.equals(mazeSize, that.mazeSize)
+                && Objects.equals(difficulty, that.difficulty);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(mazeSize);
     }
 }

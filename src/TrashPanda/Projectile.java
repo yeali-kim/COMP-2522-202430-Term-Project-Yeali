@@ -2,6 +2,8 @@ package TrashPanda;
 
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.Objects;
+
 /**
  * Represents a projectile that is shot from neighbor.
  * A projectile moves at a random velocity in random angle and may intersect with player.
@@ -93,5 +95,28 @@ class Projectile {
                 || projectileLeft > playerRight
                 || projectileBottom < playerY
                 || projectileTop > playerBottom);
+    }
+
+    @Override
+    public String toString() {
+        return "Projectile{" + "x=" + x + ", y=" + y
+                + ", vx=" + vx + ", vy=" + vy;
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Projectile that)) {
+            return false;
+        }
+        return Double.compare(x, that.x) == 0 && Double.compare(y, that.y) == 0
+                && Double.compare(vx, that.vx) == 0 && Double.compare(vy, that.vy) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, vx, vy);
     }
 }

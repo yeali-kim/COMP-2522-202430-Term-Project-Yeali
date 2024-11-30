@@ -1,5 +1,6 @@
 package TrashPanda;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -13,7 +14,7 @@ class Game {
     /**
      * Constructs a new Game instance with the specified player and level.
      *
-     * @param player Player instance of the game
+     * @param player       Player instance of the game
      * @param levelManager LevelManager that provides the current maze and mode
      */
     Game(final Player player, final LevelManager levelManager) {
@@ -71,5 +72,27 @@ class Game {
         int playerY = (int) Math.round(player.getY());
 
         return playerX == goalX && playerY == goalY;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{maze=" + maze + '}';
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Game game)) {
+            return false;
+        }
+        return Objects.equals(player, game.player)
+                && Objects.equals(maze, game.maze);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(player, maze);
     }
 }

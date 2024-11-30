@@ -7,6 +7,8 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 
+import java.util.Objects;
+
 /**
  * Represents the night mode that has a black overlay except for a halo following the player.
  */
@@ -79,5 +81,28 @@ class NightMode extends Mode {
         gc.setFill(gradient);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.restore();
+    }
+
+    @Override
+    public String toString() {
+        return "NightMode{" + ", mazeSize="
+                + mazeSize + ", difficulty='" + difficulty + '\'' + '}';
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof AngryNeighborMode that)) {
+            return false;
+        }
+        return Objects.equals(mazeSize, that.mazeSize)
+                && Objects.equals(difficulty, that.difficulty);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(mazeSize);
     }
 }

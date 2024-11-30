@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents a player (trash panda) that moves around the maze.
@@ -152,5 +153,31 @@ class Player {
 
         gc.drawImage(currentImage, x * cellSize, y * cellSize,
                 cellSize * scaleFactor, cellSize * scaleFactor);
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" + "x=" + x + ", y=" + y + '}';
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Player player)) {
+            return false;
+        }
+        return Double.compare(x, player.x) == 0
+                && Double.compare(y, player.y) == 0
+                && lastUpdateTime == player.lastUpdateTime
+                && Objects.equals(imageIndices, player.imageIndices)
+                && Objects.equals(currentImage, player.currentImage)
+                && Objects.equals(lastDirection, player.lastDirection);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, imageIndices, currentImage, lastDirection, lastUpdateTime);
     }
 }

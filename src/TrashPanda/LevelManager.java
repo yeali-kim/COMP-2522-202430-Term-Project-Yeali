@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Manages the progression of levels in the game.
@@ -193,5 +195,30 @@ public class LevelManager implements Serializable {
         } else {
             System.out.println("Failed to delete save file or no save file exists.");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "LevelManager{" + ", currentMode=" + currentMode
+                + ", currentLevelIndex=" + currentLevelIndex
+                + ", levelProgressionArray=" + Arrays.toString(levelProgression) + '}';
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof LevelManager that)) {
+            return false;
+        }
+        return Objects.equals(currentMode, that.currentMode)
+                && Objects.equals(currentLevelIndex, that.currentLevelIndex)
+                && Arrays.equals(levelProgression, that.levelProgression);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(currentMode, currentLevelIndex, Arrays.hashCode(levelProgression));
     }
 }

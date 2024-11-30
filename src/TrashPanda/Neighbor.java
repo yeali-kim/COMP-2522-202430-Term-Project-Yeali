@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -100,5 +101,30 @@ class Neighbor {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Neighbor{" + "x=" + x + ", y=" + y + '}';
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Neighbor neighbor)) {
+            return false;
+        }
+        return Double.compare(x, neighbor.x) == 0
+                && Double.compare(y, neighbor.y) == 0
+                && lastShotTime == neighbor.lastShotTime
+                && Objects.equals(projectiles, neighbor.projectiles)
+                && Objects.equals(random, neighbor.random);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, projectiles, lastShotTime, random);
     }
 }
