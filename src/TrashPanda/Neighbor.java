@@ -24,8 +24,12 @@ class Neighbor {
      *
      * @param x double that represents the x-coordinate of the neighbor
      * @param y double that represents the y-coordinate of the neighbor
+     * @throws IllegalArgumentException if x and y coordinates are negative numbers
      */
     Neighbor(final double x, final double y) {
+        if (x < 0 || y < 0) {
+            throw new IllegalArgumentException("Coordinate cannot be a negative number.");
+        }
         this.x = x;
         this.y = y;
         this.projectiles = new ArrayList<>();
@@ -105,7 +109,7 @@ class Neighbor {
 
     @Override
     public String toString() {
-        return "Neighbor{" + "x=" + x + ", y=" + y + '}';
+        return "Neighbor{" + "x-coordinate = " + x + ", y-coordinate = " + y + '}';
     }
 
     @Override

@@ -21,8 +21,12 @@ class Maze {
      * Constructs a Maze with the specified maze size.
      *
      * @param mazeSize int that represents logical size of the maze (number of cells)
+     * @throws IllegalArgumentException if mazeSize is less than or equal to 0
      */
     Maze(final int mazeSize) {
+        if (mazeSize <= 0) {
+            throw new IllegalArgumentException("Maze size must be a positive integer.");
+        }
         this.size = mazeSize * 2 + 1;
         this.maze = new boolean[size][size];
         generateMaze();

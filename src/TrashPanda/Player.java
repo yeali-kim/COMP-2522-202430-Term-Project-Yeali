@@ -26,8 +26,12 @@ class Player {
      *
      * @param startX double representing the x-coordinate of the player
      * @param startY double representing the y-coordinate of the player
+     * @throws IllegalArgumentException if x and y coordinates are negative numbers
      */
     Player(final double startX, final double startY) {
+        if (startX < 0 || startY < 0) {
+            throw new IllegalArgumentException("Coordinate cannot be a negative number.");
+        }
         this.x = startX;
         this.y = startY;
         this.currentImage = ImageLoader.FRONT_IMAGES[0];
@@ -157,7 +161,7 @@ class Player {
 
     @Override
     public String toString() {
-        return "Player{" + "x=" + x + ", y=" + y + '}';
+        return "Player{" + "x-coordinate = " + x + ", y-coordinate = " + y + '}';
     }
 
     @Override
