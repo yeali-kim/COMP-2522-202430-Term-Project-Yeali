@@ -27,7 +27,7 @@ Guide the Trash Panda through all stages of the maze while overcoming unique obs
 ---
 ## 🔧 Installation and Setup
 
-1. Clone the Repository:
+1. Clone the Repository
 2. Mark src folder as Sources Root
 3. Run TrashPandaGame.java
 ---
