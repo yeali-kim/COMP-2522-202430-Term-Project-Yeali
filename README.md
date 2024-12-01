@@ -39,10 +39,10 @@ TrashPandaGame/
 ├── src
 │   ├── images/             # Game assets
 │   └── TrashPanda/         # Source code for game logic
-├── test/                   # Unit tests for the game
+├── tests/                   # Unit tests for the game
 ├── checkstyle/             # Checkstyle configuration
 ├── target/                 # Compiled output and build files
-└── README.md               # Project documentation
+└── README.md               # Project overview and instructions
 ```
 
 ---
@@ -60,7 +60,6 @@ TrashPandaGame/
   - **NightMode**
   - **AngryNeighborMode**
   - **CompositeMode**
-
 - **Neighbor**: Shoots projectiles towards the maze at random speeds and directions in Angry Neighbor and Composite Mode.
 - **Projectile**: Manages the behavior of projectiles in Angry Neighbor and Composite Mode.
     
@@ -72,7 +71,8 @@ Unit tests are included for all major components to ensure robust functionality 
 ---
 
 ## 🔮 Future Enhancements
-- Items like flashlight or shield to assist game play
-- Option to start new game or load old game
+- Items to assist game play
 - Raccoon selection
 - Sound effects
+- Option to start new game or load old game upon program start
+- Option to restart current level if hit
